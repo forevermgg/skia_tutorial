@@ -44,7 +44,9 @@ endif()
 INCLUDE_DIRECTORIES(${SKIA_SDK})
 INCLUDE_DIRECTORIES(src)
 set(SK_GL=1)
+set(SK_GANESH=1)
 add_definitions(-DSK_GL=1)
+add_definitions(-DSK_GANESH=1)
 LINK_DIRECTORIES(${SKIA_SDK_LIB})
 
 
@@ -52,9 +54,10 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 # add_executable(skia_tutorial src/sdl2/sdl2_test.cpp)
 # add_executable(skia_tutorial src/sdl2/example.cpp)
 # add_executable(skia_tutorial src/sdl2/example2.cpp)
-add_executable(skia_tutorial src/skia/hello_skia.cpp src/skia/file.cpp)
+# add_executable(skia_tutorial src/skia/hello_skia.cpp src/skia/file.cpp)
 # add_executable(skia_tutorial src/skia/hello_skia_sdl2.cpp)
 # add_executable(skia_tutorial src/skia/canvas/hello_canvas.cpp src/skia/file.cpp)
+add_executable(skia_tutorial src/skia/canvas/learn_canvas.cpp src/skia/file.cpp)
 # ------- End Executable - #
 
 TARGET_LINK_LIBRARIES(skia_tutorial
