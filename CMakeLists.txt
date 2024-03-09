@@ -41,24 +41,24 @@ endif()
         ${SKIA_SDK}/modules
         ${SKIA_SDK}/src
         ${SKIA_SDK}/third_party)]]
-include_directories(${SKIA_SDK})
-include_directories(src)
+INCLUDE_DIRECTORIES(${SKIA_SDK})
+INCLUDE_DIRECTORIES(src)
 set(SK_GL=1)
 add_definitions(-DSK_GL=1)
 LINK_DIRECTORIES(${SKIA_SDK_LIB})
 
 
 # ------- Executable ----- #
-# add_executable(skia_tutorial src/sdl2/sdl2_test.cpp)
-# add_executable(skia_tutorial src/sdl2/example.cpp)
-# add_executable(skia_tutorial src/sdl2/example2.cpp)
-# add_executable(skia_tutorial src/skia/hello_skia.cpp)
-# add_executable(skia_tutorial src/skia/hello_skia_sdl2.cpp)
+#[[add_executable(skia_tutorial src/sdl2/sdl2_test.cpp)
+add_executable(skia_tutorial src/sdl2/example.cpp)
+add_executable(skia_tutorial src/sdl2/example2.cpp)
+add_executable(skia_tutorial src/skia/hello_skia.cpp)
+add_executable(skia_tutorial src/skia/hello_skia_sdl2.cpp)]]
 add_executable(skia_tutorial src/skia/canvas/hello_canvas.cpp
         src/skia/file.cpp)
 # ------- End Executable - #
 
-target_link_libraries(skia_tutorial
+TARGET_LINK_LIBRARIES(skia_tutorial
         ${SKIA_SDK_LIB}/libdng_sdk.a
         ${SKIA_SDK_LIB}/libexpat.a
         ${SKIA_SDK_LIB}/libharfbuzz.a
