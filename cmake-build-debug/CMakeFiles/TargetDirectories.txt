@@ -1,3 +1,0 @@
-/Users/forevermeng/CLionProjects/skia_tutorial/cmake-build-debug/CMakeFiles/skia_tutorial.dir
-/Users/forevermeng/CLionProjects/skia_tutorial/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/forevermeng/CLionProjects/skia_tutorial/cmake-build-debug/CMakeFiles/rebuild_cache.dir
