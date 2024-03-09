@@ -1,0 +1,9 @@
+# ninja log v5
+6	431	1709973107633115669	CMakeFiles/skia_tutorial.dir/src/skia/test.cpp.o	82185137c58cced6
+0	4	0	clean	da8d4fa4be2f906c
+0	69	1709973611704604406	build.ninja	364c1e76aec4d2eb
+5	395	1709973454756841462	CMakeFiles/skia_tutorial.dir/src/skia/hello_skia.cpp.o	d99a8c0297b344db
+396	604	1709973454962114890	bin/skia_tutorial	4b906e95f642394a
+0	59	1709973611704604406	build.ninja	364c1e76aec4d2eb
+0	427	1709973612134956209	CMakeFiles/skia_tutorial.dir/src/skia/hello_skia_sdl2.cpp.o	bebf5de757a36f37
+428	625	1709973612329613970	bin/skia_tutorial	461cc1b270cae803
