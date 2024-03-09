@@ -6,8 +6,13 @@
 #include <include/codec/SkCodec.h>
 #include <include/core/SkStream.h>
 #include <include/encode/SkPngEncoder.h>
+#include "file.h"
 
 int main(int argc, char *const argv[]) {
+    std::filesystem::path current_path = std::filesystem::current_path();
+    std::string current_directory = current_path.parent_path().parent_path();
+    std::cout << "当前目录是: " << current_directory << std::endl;
+
     SkBitmap bitmap;  //创建一个位图设备
     SkImageInfo imageInfo = SkImageInfo::Make(480, 320, kBGRA_8888_SkColorType, kPremul_SkAlphaType);  //设置位图信息
     bitmap.allocPixels(imageInfo, imageInfo.minRowBytes());  //为位图设备绑定信息和分配内存
@@ -25,7 +30,7 @@ int main(int argc, char *const argv[]) {
     SkString text("Hello, Skia!");
     canvas.drawSimpleText(text.c_str(), text.size(), SkTextEncoding::kUTF8, 0, 64, font, paint);  //在画布上绘制字体
 
-    SkFILEWStream file("/Users/forevermeng/CLionProjects/skia_tutorial/test.png");  //创建文件输出流
+    SkFILEWStream file((current_directory + PATH_SEPARATOR + "hello_skia.png").c_str());  //创建文件输出流
     if (!file.isValid()) {
         return 1;
     }

@@ -31,6 +31,8 @@ void draw(SkCanvas *canvas) {
 
 int main(int argc, char *const argv[]) {
     std::string current_directory = File::get_current_directory();
+    std::filesystem::path current_path = std::filesystem::current_path();
+    current_directory = current_path.parent_path().parent_path();
     std::cout << "当前目录是: " << current_directory << std::endl;
     // 创建一个位图设备
     SkBitmap bitmap;
@@ -43,7 +45,7 @@ int main(int argc, char *const argv[]) {
     draw(&canvas);
 
     // 保存到文件
-    SkFILEWStream file((current_directory + PATH_SEPARATOR + "/hello_canvas.png").c_str());  //创建文件输出流
+    SkFILEWStream file((current_directory + PATH_SEPARATOR + "hello_canvas.png").c_str());  //创建文件输出流
     if (!file.isValid()) {
         return 1;
     }
