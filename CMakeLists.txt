@@ -14,6 +14,29 @@ Message( STATUS "CMAKE_FINDCMAKE: " ${CMAKE_SOURCE_DIR}/CMAKE )
 Message( STATUS "CMAKE_HOST_SYSTEM_NAME: " ${CMAKE_HOST_SYSTEM_NAME} )
 Message( STATUS "CMAKE_HOST_SYSTEM_PROCESSOR: " ${CMAKE_HOST_SYSTEM_PROCESSOR} )
 
+
+# Check if the compiler supports C++11
+include(CheckCXXCompilerFlag)
+check_cxx_compiler_flag("-std=c++17" COMPILER_SUPPORTS_CXX17)
+if(NOT COMPILER_SUPPORTS_CXX11)
+    message(FATAL_ERROR "The compiler does not support C++17.")
+endif()
+
+# Check for atomic support
+include(CheckCXXSourceRuns)
+set(CMAKE_REQUIRED_FLAGS "-std=c++17")
+check_cxx_source_runs("
+    #include <atomic>
+    int main() {
+        std::atomic<int> testAtomic;
+        return 0;
+    }
+" ATOMIC_SUPPORTED)
+
+if(NOT ATOMIC_SUPPORTED)
+    message(FATAL_ERROR "The compiler does not support atomic operations.")
+endif()
+
 # ------- Set Vars ------- #
 # 获取OS信息
 # 操作系统	公共定义	64位系统定义
@@ -59,7 +82,8 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 # add_executable(skia_tutorial src/skia/canvas/hello_canvas.cpp src/skia/file.cpp)
 # add_executable(skia_tutorial src/skia/canvas/learn_canvas.cpp src/skia/file.cpp)
 # add_executable(skia_tutorial src/skia/drawable/circle_rect.cpp src/skia/file.cpp)
-add_executable(skia_tutorial src/skia/drawable/circle_rect_shadow.cpp src/skia/file.cpp)
+# add_executable(skia_tutorial src/skia/drawable/circle_rect_shadow.cpp src/skia/file.cpp)
+add_executable(skia_tutorial src/skia/watermark/water_mark_test.cpp src/skia/file.cpp)
 # ------- End Executable - #
 
 TARGET_LINK_LIBRARIES(skia_tutorial
