@@ -58,7 +58,8 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 # add_executable(skia_tutorial src/skia/hello_skia_sdl2.cpp)
 # add_executable(skia_tutorial src/skia/canvas/hello_canvas.cpp src/skia/file.cpp)
 # add_executable(skia_tutorial src/skia/canvas/learn_canvas.cpp src/skia/file.cpp)
-add_executable(skia_tutorial src/skia/drawable/circle_rect.cpp src/skia/file.cpp)
+# add_executable(skia_tutorial src/skia/drawable/circle_rect.cpp src/skia/file.cpp)
+add_executable(skia_tutorial src/skia/drawable/circle_rect_shadow.cpp src/skia/file.cpp)
 # ------- End Executable - #
 
 TARGET_LINK_LIBRARIES(skia_tutorial

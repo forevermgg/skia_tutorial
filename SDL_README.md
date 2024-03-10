@@ -24,6 +24,8 @@ SDL2 Installs
 - brew install sdl2_image
 - brew install sdl2_mixer
 - brew install sdl2_ttf
+- brew install glfw
+- brew install glew
 
 ## Building with CLion
 
