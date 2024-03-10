@@ -41,7 +41,7 @@ int main(){
     std::filesystem::path current_path = std::filesystem::current_path();
     current_directory = current_path.parent_path().parent_path();
     std::cout << "当前目录是: " << current_directory << std::endl;
-    SkFILEWStream file((current_directory + PATH_SEPARATOR + "circle_rect.png").c_str());  //创建文件输出流
+    SkFILEWStream file((current_directory + PATH_SEPARATOR + "drawable_circle_rect.png").c_str());  //创建文件输出流
     if (!file.isValid()) {
         return 1;
     }
