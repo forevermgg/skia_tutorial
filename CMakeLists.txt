@@ -46,6 +46,8 @@ endif()
 # Android	__ANDROID__	__LP64__
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__cplusplus=201703L -std=c++17 -Wall -fno-omit-frame-pointer -pthread -fexceptions -frtti")
+# set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -latomic")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMAKE")
 set(SKIA_SDK "${CMAKE_SOURCE_DIR}/third_party/SKIA_SDK/Skia-m116-47d3027-1-macos-Debug-${CMAKE_HOST_SYSTEM_PROCESSOR}")
@@ -85,31 +87,6 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 # add_executable(skia_tutorial src/skia/drawable/circle_rect_shadow.cpp src/skia/file.cpp)
 add_executable(skia_tutorial src/skia/watermark/water_mark_test.cpp src/skia/file.cpp)
 # ------- End Executable - #
-
-TARGET_LINK_LIBRARIES(skia_tutorial
-        ${SKIA_SDK_LIB}/libdng_sdk.a
-        ${SKIA_SDK_LIB}/libexpat.a
-        ${SKIA_SDK_LIB}/libharfbuzz.a
-        ${SKIA_SDK_LIB}/libicu.a
-        ${SKIA_SDK_LIB}/libjpeg.a
-        ${SKIA_SDK_LIB}/libpiex.a
-        ${SKIA_SDK_LIB}/libpng.a
-        ${SKIA_SDK_LIB}/libskcms.a
-        ${SKIA_SDK_LIB}/libskia.a
-        ${SKIA_SDK_LIB}/libskottie.a
-        ${SKIA_SDK_LIB}/libskparagraph.a
-        ${SKIA_SDK_LIB}/libskresources.a
-        ${SKIA_SDK_LIB}/libsksg.a
-        ${SKIA_SDK_LIB}/libskshaper.a
-        ${SKIA_SDK_LIB}/libskunicode.a
-        ${SKIA_SDK_LIB}/libspvtools.a
-        ${SKIA_SDK_LIB}/libspvtools_val.a
-        ${SKIA_SDK_LIB}/libsvg.a
-        ${SKIA_SDK_LIB}/libwebp.a
-        ${SKIA_SDK_LIB}/libwebp_sse41.a
-        ${SKIA_SDK_LIB}/libwuffs.a
-        ${SKIA_SDK_LIB}/libzlib.a
-)
 
 # ------- Finds ---------- #
 FIND_PACKAGE(SDL2 REQUIRED)
@@ -155,10 +132,35 @@ Message( STATUS "SDL2Mixer_FOUND: " ${SDL2Mixer_FOUND} )
 Message("")
 
 file(COPY resources DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+file(COPY resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 # ------- End Finds ------ #
 
 # ------- Inc & Link ---- #
 INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIR} ${SDL2TTF_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2Mixer_INCLUDE_DIR})
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2Mixer_LIBRARY} )
+TARGET_LINK_LIBRARIES(skia_tutorial
+        ${SKIA_SDK_LIB}/libdng_sdk.a
+        ${SKIA_SDK_LIB}/libexpat.a
+        ${SKIA_SDK_LIB}/libharfbuzz.a
+        ${SKIA_SDK_LIB}/libicu.a
+        ${SKIA_SDK_LIB}/libjpeg.a
+        ${SKIA_SDK_LIB}/libpiex.a
+        ${SKIA_SDK_LIB}/libpng.a
+        ${SKIA_SDK_LIB}/libskcms.a
+        ${SKIA_SDK_LIB}/libskia.a
+        ${SKIA_SDK_LIB}/libskottie.a
+        ${SKIA_SDK_LIB}/libskparagraph.a
+        ${SKIA_SDK_LIB}/libskresources.a
+        ${SKIA_SDK_LIB}/libsksg.a
+        ${SKIA_SDK_LIB}/libskshaper.a
+        ${SKIA_SDK_LIB}/libskunicode.a
+        ${SKIA_SDK_LIB}/libspvtools.a
+        ${SKIA_SDK_LIB}/libspvtools_val.a
+        ${SKIA_SDK_LIB}/libsvg.a
+        ${SKIA_SDK_LIB}/libwebp.a
+        ${SKIA_SDK_LIB}/libwebp_sse41.a
+        ${SKIA_SDK_LIB}/libwuffs.a
+        ${SKIA_SDK_LIB}/libzlib.a
+        ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2Mixer_LIBRARY}
+)
 # ------- End ----------- #
 
