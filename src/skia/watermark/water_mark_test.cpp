@@ -97,10 +97,10 @@ int main() {
     SkString path(file.c_str());
     sk_sp<SkData> data = SkData::MakeFromFileName(path.c_str());
     if (!data) {
-        printf("Missing file %s", path.c_str());
+        std::cerr << "Missing file:" << path.c_str() << std::endl;
         return 0;
     }
-    std::cout << "Successfully read " << data->size() << " bytes from file: " << file << std::endl;
+    std::cerr << "Successfully read " << data->size() << " bytes from file: " << file << std::endl;
     auto codec = SkCodec::MakeFromData(std::move(data));
     SkImageInfo info = codec->getInfo();
     bitmap.allocPixels(SkImageInfo::Make(info.width(), info.height(), kN32_SkColorType, kPremul_SkAlphaType));
