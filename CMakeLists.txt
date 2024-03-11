@@ -18,7 +18,7 @@ Message( STATUS "CMAKE_HOST_SYSTEM_PROCESSOR: " ${CMAKE_HOST_SYSTEM_PROCESSOR} )
 # Check if the compiler supports C++11
 include(CheckCXXCompilerFlag)
 check_cxx_compiler_flag("-std=c++17" COMPILER_SUPPORTS_CXX17)
-if(NOT COMPILER_SUPPORTS_CXX11)
+if(NOT COMPILER_SUPPORTS_CXX17)
     message(FATAL_ERROR "The compiler does not support C++17.")
 endif()
 
