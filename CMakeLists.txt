@@ -50,8 +50,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__cplusplus=201703L -std=c++17 -Wall -
 # set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -latomic")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMAKE")
-set(SKIA_SDK "${CMAKE_SOURCE_DIR}/third_party/SKIA_SDK/Skia-m116-47d3027-1-macos-Debug-${CMAKE_HOST_SYSTEM_PROCESSOR}")
-set(SKIA_SDK_LIB "${SKIA_SDK}/out/Debug-macos-${CMAKE_HOST_SYSTEM_PROCESSOR}")
+set(SKIA_SDK "${CMAKE_SOURCE_DIR}/third_party/SKIA_SDK/Skia-m116-47d3027-1-macos-Release-${CMAKE_HOST_SYSTEM_PROCESSOR}")
+set(SKIA_SDK_LIB "${SKIA_SDK}/out/Release-macos-${CMAKE_HOST_SYSTEM_PROCESSOR}")
 Message( STATUS "SKIA_SDK: ${SKIA_SDK}")
 Message( STATUS "SKIA_SDK_LIB: ${SKIA_SDK_LIB}")
 
@@ -153,8 +153,8 @@ TARGET_LINK_LIBRARIES(skia_tutorial
         ${SKIA_SDK_LIB}/libsksg.a
         ${SKIA_SDK_LIB}/libskshaper.a
         ${SKIA_SDK_LIB}/libskunicode.a
-        ${SKIA_SDK_LIB}/libspvtools.a
-        ${SKIA_SDK_LIB}/libspvtools_val.a
+        # ${SKIA_SDK_LIB}/libspvtools.a
+        # ${SKIA_SDK_LIB}/libspvtools_val.a
         ${SKIA_SDK_LIB}/libsvg.a
         ${SKIA_SDK_LIB}/libwebp.a
         ${SKIA_SDK_LIB}/libwebp_sse41.a
