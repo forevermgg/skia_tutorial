@@ -33,8 +33,6 @@ SkBitmap make_background() {
     tmp.drawRect({0,0,16,16}, gray);
     tmp.drawRect({16,16,32,32}, gray);
     SkPaint shader;
-   /* shader.setShader(
-            bitmap.makeShader(SkShader::kRepeat_TileMode, SkShader::kRepeat_TileMode));*/
     shader.setShader(bitmap.makeShader(SkTileMode::kRepeat, SkTileMode::kRepeat, SkSamplingOptions()));
     background.allocN32Pixels(612, 792);
     SkCanvas tmp2(background);
