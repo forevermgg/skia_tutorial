@@ -92,7 +92,10 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 
 
 # add_executable(skia_tutorial src/skia/50_percent/50_percent_gray.cpp src/skia/file.cpp)
-add_executable(skia_tutorial src/skia/50_percent/50_percent_srgb.cpp src/skia/file.cpp)
+# add_executable(skia_tutorial src/skia/50_percent/50_percent_srgb.cpp src/skia/file.cpp)
+
+
+add_executable(skia_tutorial src/skia/alpha/Alpha_Constants_a.cpp src/skia/file.cpp)
 # ------- End Executable - #
 
 # ------- Finds ---------- #
