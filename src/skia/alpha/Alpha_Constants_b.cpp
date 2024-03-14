@@ -20,6 +20,7 @@
 #include "skia/file.h"
 
 SkBitmap source;
+sk_sp<SkImage> image;
 
 void draw(SkCanvas* canvas) {
     std::vector<int32_t> srcPixels;
@@ -41,11 +42,15 @@ void draw(SkCanvas* canvas) {
 
 
 int main(int argc, char *const argv[]) {
-    SkImageInfo imageInfo = SkImageInfo::Make(256, 128, kBGRA_8888_SkColorType, kPremul_SkAlphaType);
-    source.allocPixels(imageInfo, imageInfo.minRowBytes());
-
-    SkCanvas canvas(source);
+    SkString path = SkStringPrintf("resources/example_2.png");
+    image = SkImages::DeferredFromEncodedData(SkData::MakeFromFileName(path.c_str()));
+    SkAssertResult(image && image->asLegacyBitmap(&source));
+    SkBitmap bmp;
+    bmp.allocN32Pixels(256, 128);
+    bmp.eraseColor(SK_ColorWHITE);
+    SkCanvas canvas(bmp);
     draw(&canvas);
+
     std::string current_directory = File::get_current_directory();
     std::filesystem::path current_path = std::filesystem::current_path();
     current_directory = current_path.parent_path().parent_path();
@@ -54,5 +59,5 @@ int main(int argc, char *const argv[]) {
     if (!save_file.isValid()) {
         return 1;
     }
-    SkPngEncoder::Encode(&save_file, source.pixmap(), {});
+    SkPngEncoder::Encode(&save_file, bmp.pixmap(), {});
 }
