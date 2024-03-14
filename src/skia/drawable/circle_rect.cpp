@@ -17,7 +17,7 @@
 #include "include/gpu/ganesh/SkSurfaceGanesh.h"
 #include "../file.h"
 
-int main(){
+int main() {
     // 创建一个位图设备
     SkBitmap bitmap;
     SkImageInfo imageInfo = SkImageInfo::Make(400, 400, kBGRA_8888_SkColorType, kPremul_SkAlphaType);  //设置位图信息

@@ -15,7 +15,7 @@
 #include "include/gpu/ganesh/SkSurfaceGanesh.h"
 #include "../file.h"
 
-void example(SkCanvas* canvas) {
+void example(SkCanvas *canvas) {
     const SkScalar scale = 256.0f;
     const SkScalar R = 0.45f * scale;
     const SkScalar TAU = 6.2831853f;
@@ -37,8 +37,8 @@ void example(SkCanvas* canvas) {
 }
 
 void out_cpu_bitmap(int width, int height,
-            void (*draw)(SkCanvas*),
-            const char* path) {
+                    void (*draw)(SkCanvas *),
+                    const char *path) {
     // 创建一个位图设备
     SkBitmap bitmap;
     SkImageInfo imageInfo = SkImageInfo::Make(width, height, kBGRA_8888_SkColorType, kPremul_SkAlphaType);  //设置位图信息
@@ -49,7 +49,7 @@ void out_cpu_bitmap(int width, int height,
     draw(&canvas);
     SkFILEWStream file(path);  //创建文件输出流
     if (!file.isValid()) {
-        return ;
+        return;
     }
     SkPngEncoder::Encode(&file, bitmap.pixmap(), {});
 }

@@ -22,9 +22,9 @@
 SkBitmap source;
 sk_sp<SkImage> image;
 
-void draw(SkCanvas* canvas) {
-    uint8_t set1[5] = { 0xCA, 0xDA, 0xCA, 0xC9, 0xA3 };
-    uint8_t set2[5] = { 0xAC, 0xA8, 0x89, 0x47, 0x87 };
+void draw(SkCanvas *canvas) {
+    uint8_t set1[5] = {0xCA, 0xDA, 0xCA, 0xC9, 0xA3};
+    uint8_t set2[5] = {0xAC, 0xA8, 0x89, 0x47, 0x87};
     SkBitmap bitmap;
     bitmap.installPixels(SkImageInfo::Make(5, 1, kGray_8_SkColorType, kOpaque_SkAlphaType), set1, 5);
     canvas->scale(10, 50);

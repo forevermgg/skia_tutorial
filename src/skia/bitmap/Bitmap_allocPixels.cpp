@@ -22,7 +22,7 @@
 SkBitmap source;
 sk_sp<SkImage> image;
 
-void draw(SkCanvas* canvas) {
+void draw(SkCanvas *canvas) {
     // 创建一个空的 SkBitmap 对象
     SkBitmap bitmap;
     // 创建一个 SkImageInfo 对象，设置图像的宽度为 256，高度为 64，颜色类型为灰度，alpha 类型为不透明
@@ -34,7 +34,7 @@ void draw(SkCanvas* canvas) {
     // 将 offscreen 的缩放设置为 0.5，这将使得在 offscreen 上绘制的图像被缩小一半
     offscreen.scale(.5f, .5f);
     // 在一个循环中，对每个 y 值（0、64、128、192）执行以下操作：
-    for (int y : { 0, 64, 128, 192 } ) {
+    for (int y: {0, 64, 128, 192}) {
         // 在 offscreen 上绘制 source 图像，图像的 y 坐标被向上移动 y 个单位
         offscreen.drawImage(source.asImage(), 0, -y);
         // 在输入的 canvas 上绘制 bitmap，图像的 y 坐标为 y

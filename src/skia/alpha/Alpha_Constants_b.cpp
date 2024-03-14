@@ -22,7 +22,7 @@
 SkBitmap source;
 sk_sp<SkImage> image;
 
-void draw(SkCanvas* canvas) {
+void draw(SkCanvas *canvas) {
     std::vector<int32_t> srcPixels;
     srcPixels.resize(source.height() * source.rowBytes());
     SkPixmap pixmap(SkImageInfo::MakeN32Premul(source.width(), source.height()),

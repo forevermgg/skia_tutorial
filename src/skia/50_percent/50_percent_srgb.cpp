@@ -29,12 +29,12 @@ static sk_sp<SkShader> make() {
                                                  SkSamplingOptions(SkFilterMode::kLinear));
 }
 
-void draw(SkCanvas* canvas) {
+void draw(SkCanvas *canvas) {
     // 将画布的颜色设置为白色。这将清除画布上的任何内容，并将其填充为白色。
     canvas->drawColor(SK_ColorWHITE);
 
-   // 定义一个矩形，左上角位于原点，宽度和高度都是 100。
-    const SkRect r = { 0, 0, 100, 100 };
+    // 定义一个矩形，左上角位于原点，宽度和高度都是 100。
+    const SkRect r = {0, 0, 100, 100};
 
     // 创建一个新的 SkPaint 对象。
     SkPaint p;

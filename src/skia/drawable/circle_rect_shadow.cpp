@@ -48,14 +48,14 @@ void canvas_drawShadow(SkCanvas *canvas,
     SkColor outSpot;
     SkShadowUtils::ComputeTonalColors(inAmbient, inSpot, &outAmbient, &outSpot);
     uint32_t flags = transparentOccluder
-                         ? SkShadowFlags::kTransparentOccluder_ShadowFlag
-                         : SkShadowFlags::kNone_ShadowFlag;
+                     ? SkShadowFlags::kTransparentOccluder_ShadowFlag
+                     : SkShadowFlags::kNone_ShadowFlag;
     flags |= SkShadowFlags::kDirectionalLight_ShadowFlag;
     SkShadowUtils::DrawShadow(
-        canvas, *path, SkPoint3::Make(0.0f, 0.0f, elevation * devicePixelRatio),
-        SkPoint3::Make(kShadowLightXOffset, kShadowLightYOffset,
-                       kShadowLightHeight * devicePixelRatio),
-        devicePixelRatio * kShadowLightRadius, outAmbient, outSpot, flags);
+            canvas, *path, SkPoint3::Make(0.0f, 0.0f, elevation * devicePixelRatio),
+            SkPoint3::Make(kShadowLightXOffset, kShadowLightYOffset,
+                           kShadowLightHeight * devicePixelRatio),
+            devicePixelRatio * kShadowLightRadius, outAmbient, outSpot, flags);
 }
 
 SkRect ComputeShadowBounds(const SkPath &path,
@@ -64,9 +64,9 @@ SkRect ComputeShadowBounds(const SkPath &path,
                            const SkMatrix &ctm) {
     SkRect shadow_bounds(path.getBounds());
     SkShadowUtils::GetLocalBounds(
-        ctm, path, SkPoint3::Make(0, 0, dpr * elevation),
-        SkPoint3::Make(0, -1, 1), kShadowLightRadius / kShadowLightHeight,
-        SkShadowFlags::kDirectionalLight_ShadowFlag, &shadow_bounds);
+            ctm, path, SkPoint3::Make(0, 0, dpr * elevation),
+            SkPoint3::Make(0, -1, 1), kShadowLightRadius / kShadowLightHeight,
+            SkShadowFlags::kDirectionalLight_ShadowFlag, &shadow_bounds);
     return shadow_bounds;
 }
 
@@ -83,8 +83,8 @@ void DrawShadow(SkCanvas *canvas,
     const SkScalar kSpotAlpha = 0.25f;
 
     uint32_t flags = transparentOccluder
-                         ? SkShadowFlags::kTransparentOccluder_ShadowFlag
-                         : SkShadowFlags::kNone_ShadowFlag;
+                     ? SkShadowFlags::kTransparentOccluder_ShadowFlag
+                     : SkShadowFlags::kNone_ShadowFlag;
     flags |= SkShadowFlags::kDirectionalLight_ShadowFlag;
     SkColor inAmbient = SkColorSetA(color, kAmbientAlpha * SkColorGetA(color));
     SkColor inSpot = SkColorSetA(color, kSpotAlpha * SkColorGetA(color));

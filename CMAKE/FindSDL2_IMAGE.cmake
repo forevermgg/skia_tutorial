@@ -105,10 +105,10 @@ FIND_PATH(SDL2_IMAGE_INCLUDE_DIR SDL_image.h
         /opt/local # DarwinPorts
         /opt/csw # Blastwave
         /opt
-        )
+)
 
 # Lookup the 64 bit libs on x64
-IF(CMAKE_SIZEOF_VOID_P EQUAL 8)
+IF (CMAKE_SIZEOF_VOID_P EQUAL 8)
     FIND_LIBRARY(SDL2_IMAGE_LIBRARY_TEMP
             NAMES SDL2_image
             HINTS
@@ -123,9 +123,9 @@ IF(CMAKE_SIZEOF_VOID_P EQUAL 8)
             /opt/local
             /opt/csw
             /opt
-            )
+    )
     # On 32bit build find the 32bit libs
-ELSE(CMAKE_SIZEOF_VOID_P EQUAL 8)
+ELSE (CMAKE_SIZEOF_VOID_P EQUAL 8)
     FIND_LIBRARY(SDL2_IMAGE_LIBRARY_TEMP
             NAMES SDL2_image
             HINTS
@@ -140,17 +140,17 @@ ELSE(CMAKE_SIZEOF_VOID_P EQUAL 8)
             /opt/local
             /opt/csw
             /opt
-            )
-ENDIF(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    )
+ENDIF (CMAKE_SIZEOF_VOID_P EQUAL 8)
 
 SET(SDL2_IMAGE_FOUND "NO")
-IF(SDL2_IMAGE_LIBRARY_TEMP)
+IF (SDL2_IMAGE_LIBRARY_TEMP)
     # Set the final string here so the GUI reflects the final state.
     SET(SDL2_IMAGE_LIBRARY ${SDL2_IMAGE_LIBRARY_TEMP} CACHE STRING "Where the SDL2_image Library can be found")
     # Set the temp variable to INTERNAL so it is not seen in the CMake GUI
     SET(SDL2_IMAGE_LIBRARY_TEMP "${SDL2_IMAGE_LIBRARY_TEMP}" CACHE INTERNAL "")
     SET(SDL2_IMAGE_FOUND "YES")
-ENDIF(SDL2_IMAGE_LIBRARY_TEMP)
+ENDIF (SDL2_IMAGE_LIBRARY_TEMP)
 
 INCLUDE(FindPackageHandleStandardArgs)
 

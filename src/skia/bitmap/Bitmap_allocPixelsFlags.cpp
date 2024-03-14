@@ -22,7 +22,7 @@
 SkBitmap source;
 sk_sp<SkImage> image;
 
-void draw(SkCanvas* canvas) {
+void draw(SkCanvas *canvas) {
     // 创建一个空的 SkBitmap 对象
     SkBitmap bitmap;
 

@@ -35,7 +35,8 @@ static sk_sp<SkShader> make_bw_dither() {
                                                  SkTileMode::kRepeat,
                                                  SkSamplingOptions(SkFilterMode::kLinear));
 }
-void draw(SkCanvas* canvas) {
+
+void draw(SkCanvas *canvas) {
     // 将画布的颜色设置为白色。这将清除画布上的任何内容，并将其填充为白色。
     canvas->drawColor(SK_ColorWHITE);
     // 创建一个新的 SkFont 对象，用于绘制文本。这个对象使用默认的字体家族和指定的字体大小（在这里是 12）。

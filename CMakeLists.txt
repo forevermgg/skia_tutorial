@@ -110,8 +110,12 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 # add_executable(skia_tutorial src/skia/bitmap/Bitmap_allocPixels.cpp src/skia/file.cpp)
 # add_executable(skia_tutorial src/skia/bitmap/Bitmap_allocPixelsFlags.cpp src/skia/file.cpp)
 # add_executable(skia_tutorial src/skia/bitmap/Bitmap_allocPixels_2.cpp src/skia/file.cpp)
-add_executable(skia_tutorial src/skia/bitmap/Bitmap_allocPixels_3.cpp src/skia/file.cpp)
+# add_executable(skia_tutorial src/skia/bitmap/Bitmap_allocPixels_3.cpp src/skia/file.cpp)
 # add_executable(skia_tutorial src/skia/bitmap/Bitmap_allocPixels_4.cpp src/skia/file.cpp)
+
+
+# ------- Text ---------- #
+add_executable(skia_tutorial src/skia/text/text_rendering.cpp src/skia/file.cpp)
 # ------- End Executable - #
 
 # ------- Finds ---------- #

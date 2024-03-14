@@ -25,8 +25,8 @@ sk_sp<SkImage> image;
 
 class TinyAllocator : public SkBitmap::Allocator {
 public:
-    bool allocPixelRef(SkBitmap* bitmap) override {
-        const SkImageInfo& info = bitmap->info();
+    bool allocPixelRef(SkBitmap *bitmap) override {
+        const SkImageInfo &info = bitmap->info();
         if (info.height() * info.minRowBytes() > sizeof(storage)) {
             return false;
         }
@@ -35,10 +35,11 @@ public:
         bitmap->setPixelRef(std::move(pr), 0, 0);
         return true;
     }
+
     char storage[16];
 };
 
-void draw(SkCanvas* canvas) {
+void draw(SkCanvas *canvas) {
     TinyAllocator tinyAllocator;
     SkBitmap bitmap;
     bitmap.setInfo(SkImageInfo::MakeN32(2, 2, kOpaque_SkAlphaType));

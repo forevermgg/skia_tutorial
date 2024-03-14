@@ -11,14 +11,18 @@
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
 #else
+
 #include <unistd.h>
+
 #endif
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
 #define PATH_SEPARATOR '\\'
 #else
+
 #include <unistd.h>
+
 #define PATH_SEPARATOR '/'
 #endif
 

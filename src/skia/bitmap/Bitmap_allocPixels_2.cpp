@@ -22,7 +22,7 @@
 SkBitmap source;
 sk_sp<SkImage> image;
 
-void draw(SkCanvas* canvas) {
+void draw(SkCanvas *canvas) {
     // 创建一个空的 SkBitmap 对象
     SkBitmap bitmap;
 
@@ -36,7 +36,7 @@ void draw(SkCanvas* canvas) {
     offscreen.scale(.5f, .5f);
 
     // 在一个循环中，对每个 y 值（0、64、128、192）执行以下操作：
-    for (int y : { 0, 64, 128, 192 } ) {
+    for (int y: {0, 64, 128, 192}) {
         // 在 offscreen 上绘制 source 位图，位图的 x 和 y 坐标都被向左和向上移动 y 个单位
         offscreen.drawImage(source.asImage(), -y, -y);
 

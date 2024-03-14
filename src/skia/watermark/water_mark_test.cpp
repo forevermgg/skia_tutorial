@@ -19,13 +19,13 @@
 #include <filesystem>
 #include "skia/file.h"
 
-bool loadImageToBitmap(std::string imagePath, SkBitmap* bitmap) {
+bool loadImageToBitmap(std::string imagePath, SkBitmap *bitmap) {
     sk_sp<SkData> data = SkData::MakeFromFileName(imagePath.c_str());
     if (!data) {
         std::cerr << "Failed to create SkData from file: " << imagePath << std::endl;
         return false;
     }
-    std::unique_ptr<SkCodec>  test_codec = SkCodec::MakeFromData(data);
+    std::unique_ptr<SkCodec> test_codec = SkCodec::MakeFromData(data);
     // std::unique_ptr<SkCodec>  test_codec(SkCodec::MakeFromData(data));
     if (!test_codec) {
         std::cerr << "Failed to create SkCodec from SkData." << std::endl;
@@ -36,7 +36,7 @@ bool loadImageToBitmap(std::string imagePath, SkBitmap* bitmap) {
     if (result != SkCodec::Result::kSuccess) {
         std::string errorMsg = SkStringPrintf("Could not create codec for \"%s\": %s.",
                                               imagePath.c_str(),
-                                           SkCodec::ResultToString(result))
+                                              SkCodec::ResultToString(result))
                 .c_str();
         std::cerr << "Failed to decode image: " << imagePath << std::endl;
         return false;
@@ -72,16 +72,16 @@ void draw(SkCanvas *canvas, sk_sp<SkImage> &image) {
     canvas->drawPaint(paint);
 }
 
-void DrawBackgroundBitmap(const SkBitmap& bitmap, SkCanvas *canvas, const SkRect* prcDst) {
+void DrawBackgroundBitmap(const SkBitmap &bitmap, SkCanvas *canvas, const SkRect *prcDst) {
     SkSamplingOptions sampling;
     sk_sp<SkShader> bg_shader = bitmap.makeShader(SkTileMode::kRepeat,
-                                                                SkTileMode::kRepeat, sampling, nullptr);
+                                                  SkTileMode::kRepeat, sampling, nullptr);
     SkPaint bg_paint;
     bg_paint.setShader(bg_shader);
     canvas->drawRect(*prcDst, bg_paint);
 }
 
-void DrawBackgroundBitmap(const SkBitmap& bitmap, SkCanvas *canvas, float l, float t, float r, float b) {
+void DrawBackgroundBitmap(const SkBitmap &bitmap, SkCanvas *canvas, float l, float t, float r, float b) {
     SkRect rect = SkRect::MakeLTRB(l, t, r, b);
     DrawBackgroundBitmap(bitmap, canvas, &rect);
 }

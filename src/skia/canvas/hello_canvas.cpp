@@ -32,7 +32,7 @@ void draw(SkCanvas *canvas) {
     canvas->restore();
 }
 
-void draw1(SkCanvas* canvas) {
+void draw1(SkCanvas *canvas) {
     const SkScalar scale = 256.0f;
     const SkScalar R = 0.45f * scale;
     const SkScalar TAU = 6.2831853f;
@@ -50,7 +50,7 @@ void draw1(SkCanvas* canvas) {
     canvas->drawPath(path, p);
 }
 
-void draw2(SkCanvas* canvas) {
+void draw2(SkCanvas *canvas) {
     canvas->save();
     canvas->translate(SkIntToScalar(128), SkIntToScalar(128));
     canvas->rotate(SkIntToScalar(45));

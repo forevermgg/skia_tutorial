@@ -17,9 +17,9 @@
 #  SDL2Mixer_LIBRARIES - a list of libraries to link against to use SDL2
 #  SDL2Mixer_FOUND - if false, SDL2 cannot be used
 
-if(SDL2Mixer_FIND_QUIETLY)
+if (SDL2Mixer_FIND_QUIETLY)
     set(_FIND_SDL2_ARG QUIET)
-endif()
+endif ()
 
 find_package(SDL2 ${_FIND_SDL2_ARG})
 find_path(SDL2Mixer_INCLUDE_DIR SDL_mixer.h PATH_SUFFIXES SDL2 HINTS ENV SDL2DIR)
@@ -34,4 +34,4 @@ find_package_handle_standard_args(SDL2Mixer REQUIRED_VARS SDL2Mixer_LIBRARY SDL2
 if (SDL2Mixer_FOUND)
     set(SDL2Mixer_LIBRARIES ${SDL2Mixer_LIBRARY} ${SDL2_LIBRARIES})
     set(SDL2Mixer_INCLUDE_DIRS ${SDL2Mixer_INCLUDE_DIR} ${SDL2_INCLUDE_DIRS})
-endif()
+endif ()

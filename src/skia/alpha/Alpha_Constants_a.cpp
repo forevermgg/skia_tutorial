@@ -22,7 +22,7 @@
 SkBitmap source;
 sk_sp<SkImage> image;
 
-void draw(SkCanvas* canvas) {
+void draw(SkCanvas *canvas) {
     std::vector<int32_t> srcPixels;
     srcPixels.resize(source.height() * source.rowBytes());
     SkPixmap pixmap(SkImageInfo::MakeN32Premul(source.width(), source.height()),
@@ -30,7 +30,7 @@ void draw(SkCanvas* canvas) {
     source.readPixels(pixmap, 0, 0);
     for (int y = 0; y < 16; ++y) {
         for (int x = 0; x < 16; ++x) {
-            int32_t* blockStart = &srcPixels.front() + y * source.width() * 16 + x * 16;
+            int32_t *blockStart = &srcPixels.front() + y * source.width() * 16 + x * 16;
             size_t transparentCount = 0;
             for (int fillY = 0; fillY < source.height() / 16; ++fillY) {
                 for (int fillX = 0; fillX < source.width() / 16; ++fillX) {
