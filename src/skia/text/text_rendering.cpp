@@ -24,6 +24,7 @@ SkBitmap source;
 sk_sp<SkImage> image;
 
 void draw(SkCanvas *canvas) {
+    SkDebugf("Hello World!");
     SkFont font1(nullptr, 64.0f, 1.0f, 0.0f);
     SkFont font2(nullptr, 64.0f, 1.5f, 0.0f);
     font1.setEdging(SkFont::Edging::kAntiAlias);

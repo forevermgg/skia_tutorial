@@ -115,7 +115,8 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 
 
 # ------- Text ---------- #
-add_executable(skia_tutorial src/skia/text/text_rendering.cpp src/skia/file.cpp)
+# add_executable(skia_tutorial src/skia/text/text_rendering.cpp src/skia/file.cpp)
+add_executable(skia_tutorial src/skia/text/text_shadow.cpp src/skia/file.cpp)
 # ------- End Executable - #
 
 # ------- Finds ---------- #
