@@ -15,6 +15,21 @@ Message( STATUS "CMAKE_HOST_SYSTEM_NAME: " ${CMAKE_HOST_SYSTEM_NAME} )
 Message( STATUS "CMAKE_HOST_SYSTEM_PROCESSOR: " ${CMAKE_HOST_SYSTEM_PROCESSOR} )
 
 
+# 检查环境变量
+if (NOT DEFINED ENV{GLFW_HOME})
+    if (APPLE)
+        message(STATUS "plese exe brew install glfw")
+    endif ()
+    message(STATUS "found no env named GLFW_HOME")
+endif()
+if (NOT DEFINED ENV{GLM_HOME})
+    if (APPLE)
+        message(STATUS "plese exe brew install glm")
+    endif ()
+    message(STATUS "found no env named GLM_HOME")
+endif()
+
+
 # Check if the compiler supports C++11
 include(CheckCXXCompilerFlag)
 check_cxx_compiler_flag("-std=c++17" COMPILER_SUPPORTS_CXX17)
