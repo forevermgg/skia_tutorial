@@ -79,7 +79,7 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 
 # ------- Executable ----- #
 # ------- test ---------- #
-add_executable(skia_tutorial src/glfw/hello_glfw3.cpp)
+add_executable(skia_tutorial src/glfw/hello_glfw3.cpp src/skia/utils.cpp)
 
 # add_executable(skia_tutorial src/sdl2/sdl2_test.cpp)
 # add_executable(skia_tutorial src/sdl2/example.cpp)
