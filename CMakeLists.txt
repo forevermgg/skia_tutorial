@@ -14,10 +14,7 @@ Message( STATUS "CMAKE_FINDCMAKE: " ${CMAKE_SOURCE_DIR}/CMAKE )
 Message( STATUS "CMAKE_HOST_SYSTEM_NAME: " ${CMAKE_HOST_SYSTEM_NAME} )
 Message( STATUS "CMAKE_HOST_SYSTEM_PROCESSOR: " ${CMAKE_HOST_SYSTEM_PROCESSOR} )
 
-
 # 检查环境变量
-
-
 # Check if the compiler supports C++11
 include(CheckCXXCompilerFlag)
 check_cxx_compiler_flag("-std=c++17" COMPILER_SUPPORTS_CXX17)
@@ -50,13 +47,15 @@ endif()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__cplusplus=201703L -std=c++17 -Wall -fno-omit-frame-pointer -pthread -fexceptions -frtti")
-# set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -latomic")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMAKE")
+
+# ------- SKIA_SDK ------- #
 set(SKIA_SDK "${CMAKE_SOURCE_DIR}/third_party/SKIA_SDK/Skia-m116-47d3027-1-macos-Release-${CMAKE_HOST_SYSTEM_PROCESSOR}")
 set(SKIA_SDK_LIB "${SKIA_SDK}/out/Release-macos-${CMAKE_HOST_SYSTEM_PROCESSOR}")
 Message( STATUS "SKIA_SDK: ${SKIA_SDK}")
 Message( STATUS "SKIA_SDK_LIB: ${SKIA_SDK_LIB}")
+# ------- End ----------- #
 
 if (APPLE)
 # Undefined symbols for architecture x86_64:此类错误一般出现依赖不正确的情况下。
