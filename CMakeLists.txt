@@ -124,6 +124,7 @@ add_executable(skia_tutorial src/glfw/hello_glfw3.cpp)
 
 # ------- Finds ---------- #
 find_package(glfw3 REQUIRED)
+find_package(glew REQUIRED)
 FIND_PACKAGE(SDL2 REQUIRED)
 Message("")
 Message( STATUS "FINDING SDL2" )
