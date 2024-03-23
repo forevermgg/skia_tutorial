@@ -60,7 +60,7 @@ Message( STATUS "SKIA_SDK_LIB: ${SKIA_SDK_LIB}")
 
 if (APPLE)
 # Undefined symbols for architecture x86_64:此类错误一般出现依赖不正确的情况下。
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -v -stdlib=libc++ -framework OpenGL -framework AppKit -framework Security -framework CoreFoundation -framework CoreVideo -framework CoreText  -framework CoreMedia -framework CoreHaptics -framework QuartzCore -framework CoreFoundation -framework VideoDecodeAcceleration -framework Cocoa -framework AudioToolbox -framework VideoToolbox -framework CoreAudio -framework ForceFeedback -framework Carbon -framework Metal -framework IOKit -framework GameController -framework CoreGraphics -framework OpenCL")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -v -stdlib=libc++ -framework OpenGL -framework GLUT -framework AppKit -framework Security -framework CoreFoundation -framework CoreVideo -framework CoreText  -framework CoreMedia -framework CoreHaptics -framework QuartzCore -framework CoreFoundation -framework VideoDecodeAcceleration -framework Cocoa -framework AudioToolbox -framework VideoToolbox -framework CoreAudio -framework ForceFeedback -framework Carbon -framework Metal -framework IOKit -framework GameController -framework CoreGraphics -framework OpenCL")
 endif()
 # ------- End Set Vars --- #
 

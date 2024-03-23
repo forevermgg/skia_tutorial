@@ -26,6 +26,7 @@ SDL2 Installs
 - brew install sdl2_ttf
 - brew install glfw
 - brew install glew
+- brew install glfw3
 
 ## Building with CLion
 
