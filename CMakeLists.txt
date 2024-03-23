@@ -16,18 +16,6 @@ Message( STATUS "CMAKE_HOST_SYSTEM_PROCESSOR: " ${CMAKE_HOST_SYSTEM_PROCESSOR} )
 
 
 # 检查环境变量
-if (NOT DEFINED ENV{GLFW_HOME})
-    if (APPLE)
-        message(STATUS "plese exe brew install glfw")
-    endif ()
-    message(STATUS "found no env named GLFW_HOME")
-endif()
-if (NOT DEFINED ENV{GLM_HOME})
-    if (APPLE)
-        message(STATUS "plese exe brew install glm")
-    endif ()
-    message(STATUS "found no env named GLM_HOME")
-endif()
 
 
 # Check if the compiler supports C++11
@@ -72,7 +60,7 @@ Message( STATUS "SKIA_SDK_LIB: ${SKIA_SDK_LIB}")
 
 if (APPLE)
 # Undefined symbols for architecture x86_64:此类错误一般出现依赖不正确的情况下。
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -v -stdlib=libc++ -framework OpenGL  -framework AppKit -framework Security -framework CoreFoundation -framework CoreVideo -framework CoreText  -framework CoreMedia -framework CoreHaptics -framework QuartzCore -framework CoreFoundation -framework VideoDecodeAcceleration -framework Cocoa -framework AudioToolbox -framework VideoToolbox -framework CoreAudio -framework ForceFeedback -framework Carbon -framework Metal -framework IOKit -framework GameController -framework CoreGraphics -framework OpenCL  ")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -v -stdlib=libc++ -framework OpenGL -framework AppKit -framework Security -framework CoreFoundation -framework CoreVideo -framework CoreText  -framework CoreMedia -framework CoreHaptics -framework QuartzCore -framework CoreFoundation -framework VideoDecodeAcceleration -framework Cocoa -framework AudioToolbox -framework VideoToolbox -framework CoreAudio -framework ForceFeedback -framework Carbon -framework Metal -framework IOKit -framework GameController -framework CoreGraphics -framework OpenCL")
 endif()
 # ------- End Set Vars --- #
 
@@ -91,6 +79,9 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 
 
 # ------- Executable ----- #
+# ------- test ---------- #
+add_executable(skia_tutorial src/glfw/hello_glfw3.cpp)
+
 # add_executable(skia_tutorial src/sdl2/sdl2_test.cpp)
 # add_executable(skia_tutorial src/sdl2/example.cpp)
 # add_executable(skia_tutorial src/sdl2/example2.cpp)
@@ -106,8 +97,6 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 
 # ------- watermark ---------- #
 # add_executable(skia_tutorial src/skia/watermark/water_mark_test.cpp src/skia/file.cpp)
-
-
 
 # ------- percent ---------- #
 # add_executable(skia_tutorial src/skia/50_percent/50_percent_gray.cpp src/skia/file.cpp)
@@ -128,13 +117,13 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 # add_executable(skia_tutorial src/skia/bitmap/Bitmap_allocPixels_3.cpp src/skia/file.cpp)
 # add_executable(skia_tutorial src/skia/bitmap/Bitmap_allocPixels_4.cpp src/skia/file.cpp)
 
-
 # ------- Text ---------- #
 # add_executable(skia_tutorial src/skia/text/text_rendering.cpp src/skia/file.cpp)
-add_executable(skia_tutorial src/skia/text/text_shadow.cpp src/skia/file.cpp)
+# add_executable(skia_tutorial src/skia/text/text_shadow.cpp src/skia/file.cpp)
 # ------- End Executable - #
 
 # ------- Finds ---------- #
+find_package(glfw3 REQUIRED)
 FIND_PACKAGE(SDL2 REQUIRED)
 Message("")
 Message( STATUS "FINDING SDL2" )
@@ -207,6 +196,7 @@ TARGET_LINK_LIBRARIES(skia_tutorial
         ${SKIA_SDK_LIB}/libwuffs.a
         ${SKIA_SDK_LIB}/libzlib.a
         ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2Mixer_LIBRARY}
+        glfw
 )
 # ------- End ----------- #
 
