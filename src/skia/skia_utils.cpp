@@ -4,8 +4,13 @@
 #include <include/core/SkStream.h>
 #include <include/core/SkPath.h>
 #include <include/encode/SkPngEncoder.h>
-#include "skia_utils.h"
 #include "include/core/SkData.h"
+#include "include/core/SkImageGenerator.h"
+#include "include/core/SkImageInfo.h"
+#include "skia_utils.h"
+#include <format>
+#include <type_traits>
+#include <cassert>
 
 SkRect SkiaUtils::GetBounds(SkCanvas *canvas) {
     SkRect rect;
@@ -126,8 +131,8 @@ bool SkiaUtils::BitmapsAreEqual(const SkBitmap &bitmap1, const SkBitmap &bitmap2
 
     // Calling getAddr32() on null or empty bitmaps will assert. The conditions
     // above should return early if either bitmap is empty or null.
-    static_assert(!bitmap1.isNull() && !bitmap2.isNull());
-    static_assert(!bitmap1.empty() && !bitmap2.empty());
+    assert(!bitmap1.isNull() && !bitmap2.isNull());
+    assert(!bitmap1.empty() && !bitmap2.empty());
 
     void *addr1 = bitmap1.getAddr32(0, 0);
     void *addr2 = bitmap2.getAddr32(0, 0);
@@ -145,10 +150,10 @@ bool SkiaUtils::ConvertBitmap(const SkBitmap &src_bitmap,
                               SkBitmap *target_bitmap,
                               SkColorType target_ct,
                               SkAlphaType target_at) {
-    static_assert(src_bitmap.readyToDraw());
-    static_assert(src_bitmap.colorType() != target_ct ||
+    assert(src_bitmap.readyToDraw());
+    assert(src_bitmap.colorType() != target_ct ||
                   src_bitmap.alphaType() != target_at);
-    static_assert(target_bitmap);
+    assert(target_bitmap);
 
     SkImageInfo target_info = SkImageInfo::Make(
         src_bitmap.width(), src_bitmap.height(), target_ct, target_at);
@@ -161,7 +166,51 @@ bool SkiaUtils::ConvertBitmap(const SkBitmap &src_bitmap,
         return false;
     }
 
-    static_assert(target_bitmap->readyToDraw());
+    assert(target_bitmap->readyToDraw());
     return true;
 }
 
+bool SkiaUtils::EncodeImageToPngFile(const char* path, const SkBitmap& src) {
+    SkFILEWStream file(path);
+    return file.isValid() && SkPngEncoder::Encode(&file, src.pixmap(), {});
+}
+
+bool SkiaUtils::EncodeImageToPngFile(const char* path, const SkPixmap& src) {
+    SkFILEWStream file(path);
+    return file.isValid() && SkPngEncoder::Encode(&file, src, {});
+}
+
+bool SkiaUtils::BitmapToBase64DataURI(const SkBitmap& bitmap, SkString* dst) {
+    SkPixmap pm;
+    if (!bitmap.peekPixels(&pm)) {
+        dst->set("peekPixels failed");
+        return false;
+    }
+
+    // We're going to embed this PNG in a data URI, so make it as small as possible
+    SkPngEncoder::Options options;
+    options.fFilterFlags = SkPngEncoder::FilterFlag::kAll;
+    options.fZLibLevel = 9;
+
+    SkDynamicMemoryWStream wStream;
+    if (!SkPngEncoder::Encode(&wStream, pm, options)) {
+        dst->set("SkPngEncoder::Encode failed");
+        return false;
+    }
+
+    sk_sp<SkData> pngData = wStream.detachAsData();
+    size_t len = EncodedSize(pngData->size());
+
+    // The PNG can be almost arbitrarily large. We don't want to fill our logs with enormous URLs.
+    // Infra says these can be pretty big, as long as we're only outputting them on failure.
+    static const size_t kMaxBase64Length = 1024 * 1024;
+    if (len > kMaxBase64Length) {
+        dst->printf("Encoded image too large (%u bytes)", static_cast<uint32_t>(len));
+        return false;
+    }
+
+    dst->resize(len);
+    SkBase64::Encode(pngData->data(), pngData->size(), dst->data());
+    dst->prepend("data:image/png;base64,");
+    return true;
+}

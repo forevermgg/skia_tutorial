@@ -10,6 +10,7 @@
 #include "include/core/SkCanvas.h"
 #include "include/core/SkBitmap.h"
 #include "include/core/SkTileMode.h"
+#include "include/utils/SkBase64.h"
 #include "include/effects/SkRuntimeEffect.h"
 
 namespace SkiaUtils {
@@ -128,5 +129,22 @@ namespace SkiaUtils {
                        SkBitmap *target_bitmap,
                        SkColorType target_ct,
                        SkAlphaType target_at);
+
+    bool EncodeImageToPngFile(const char* path, const SkBitmap& src);
+
+    bool EncodeImageToPngFile(const char* path, const SkPixmap& src);
+
+    /**
+       Returns the length of the buffer that needs to be allocated to encode srcDataLength bytes.
+    */
+    size_t EncodedSize(size_t srcDataLength) {
+     // Take the floor of division by 3 to find the number of groups that need to be encoded.
+     // Each group takes 4 bytes to be represented in base64.
+     return ((srcDataLength + 2) / 3) * 4;
+    }
+
+    // Encodes the bitmap into a data:/image/png;base64,... url suitable to view in a browser after
+    // printing to a log. If false is returned, dst holds an error message instead of a URI.
+    bool BitmapToBase64DataURI(const SkBitmap& bitmap, SkString* dst);
 }
 #endif // SKIA_UTILS_H
