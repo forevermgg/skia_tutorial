@@ -123,7 +123,7 @@ add_executable(skia_tutorial src/glfw/hello_glfw3.cpp src/skia/utils.cpp)
 
 # ------- Finds ---------- #
 find_package(glfw3 REQUIRED)
-find_package(glew REQUIRED)
+find_package(GLEW REQUIRED)
 FIND_PACKAGE(SDL2 REQUIRED)
 Message("")
 Message( STATUS "FINDING SDL2" )
@@ -197,6 +197,7 @@ TARGET_LINK_LIBRARIES(skia_tutorial
         ${SKIA_SDK_LIB}/libzlib.a
         ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2Mixer_LIBRARY}
         glfw
+        GLEW::GLEW
 )
 # ------- End ----------- #
 
