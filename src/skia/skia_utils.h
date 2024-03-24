@@ -146,5 +146,7 @@ namespace SkiaUtils {
     // Encodes the bitmap into a data:/image/png;base64,... url suitable to view in a browser after
     // printing to a log. If false is returned, dst holds an error message instead of a URI.
     bool BitmapToBase64DataURI(const SkBitmap& bitmap, SkString* dst);
+
+    bool decode_everything(const char* path);
 }
 #endif // SKIA_UTILS_H
