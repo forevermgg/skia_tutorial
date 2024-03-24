@@ -1,12 +1,8 @@
 #ifndef SKIA_TUTORIAL_FILE_H
 #define SKIA_TUTORIAL_FILE_H
 
-
-#include <cstring>
-#include <iostream>
 #include <filesystem>
 #include <vector>
-#include <cerrno>
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
