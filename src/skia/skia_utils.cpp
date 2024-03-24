@@ -113,3 +113,55 @@ void SkiaUtils::DebugShowSkiaDrawRect(const SkCanvas *canvas,
     printf("rect %g %g %g %g\n", rect.fLeft, rect.fTop, rect.fRight,
            rect.fBottom);
 }
+
+
+bool SkiaUtils::BitmapsAreEqual(const SkBitmap &bitmap1, const SkBitmap &bitmap2) {
+    if (bitmap1.isNull() != bitmap2.isNull() ||
+        bitmap1.dimensions() != bitmap2.dimensions())
+        return false;
+
+    if (bitmap1.getGenerationID() == bitmap2.getGenerationID() ||
+        (bitmap1.empty() && bitmap2.empty()))
+        return true;
+
+    // Calling getAddr32() on null or empty bitmaps will assert. The conditions
+    // above should return early if either bitmap is empty or null.
+    static_assert(!bitmap1.isNull() && !bitmap2.isNull());
+    static_assert(!bitmap1.empty() && !bitmap2.empty());
+
+    void *addr1 = bitmap1.getAddr32(0, 0);
+    void *addr2 = bitmap2.getAddr32(0, 0);
+    size_t size1 = bitmap1.computeByteSize();
+    size_t size2 = bitmap2.computeByteSize();
+
+    return (size1 == size2) && (0 == memcmp(addr1, addr2, size1));
+
+    // 比较两个 SkBitmap 的大小和像素数据是否相等
+    return (size1 == size2) && (0 == memcmp(addr1, addr2, size1));
+}
+
+
+bool SkiaUtils::ConvertBitmap(const SkBitmap &src_bitmap,
+                              SkBitmap *target_bitmap,
+                              SkColorType target_ct,
+                              SkAlphaType target_at) {
+    static_assert(src_bitmap.readyToDraw());
+    static_assert(src_bitmap.colorType() != target_ct ||
+                  src_bitmap.alphaType() != target_at);
+    static_assert(target_bitmap);
+
+    SkImageInfo target_info = SkImageInfo::Make(
+        src_bitmap.width(), src_bitmap.height(), target_ct, target_at);
+    if (!target_bitmap->tryAllocPixels(target_info)) {
+        return false;
+    }
+
+    if (!src_bitmap.readPixels(target_info, target_bitmap->getPixels(),
+                               target_bitmap->rowBytes(), 0, 0)) {
+        return false;
+    }
+
+    static_assert(target_bitmap->readyToDraw());
+    return true;
+}
+
