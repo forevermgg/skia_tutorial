@@ -125,6 +125,7 @@ add_executable(skia_tutorial src/glfw/hello_glfw3.cpp src/skia/skia_utils.cpp sr
 find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
 FIND_PACKAGE(SDL2 REQUIRED)
+find_package(OpenCV)
 Message("")
 Message( STATUS "FINDING SDL2" )
 IF (${SDL2_FOUND})
@@ -198,6 +199,7 @@ TARGET_LINK_LIBRARIES(skia_tutorial
         ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2Mixer_LIBRARY}
         glfw
         GLEW::GLEW
+        ${OpenCV_LIBS}
 )
 # ------- End ----------- #
 
