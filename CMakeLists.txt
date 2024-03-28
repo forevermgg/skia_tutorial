@@ -81,7 +81,8 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 # ------- glfw ---------- #
 # add_executable(skia_tutorial src/glfw/hello_glfw3.cpp src/skia/skia_utils.cpp src/skia/file.cpp)
 # ------- opencv ---------- #
-add_executable(skia_tutorial src/opencv/hello_opencv.cpp src/skia/skia_utils.cpp src/skia/file.cpp)
+add_executable(skia_tutorial src/skia/skia_utils.cpp src/skia/file.cpp
+        src/opencv/hello_opencv.cpp)
 
 # add_executable(skia_tutorial src/sdl2/sdl2_test.cpp)
 # add_executable(skia_tutorial src/sdl2/example.cpp)

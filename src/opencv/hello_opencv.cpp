@@ -10,7 +10,10 @@ int main() {
         std::cout << "Image not loaded";
         return -1;
     }
-    imshow("[img]", srcImage);
+    resize(srcImage, srcImage, Size(1024, 1024));
+    namedWindow("TestOpenCV", 0);
+    imshow("TestOpenCV", srcImage);
     waitKey(0);
+    destroyAllWindows();
     return 0;
 }
