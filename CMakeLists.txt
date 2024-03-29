@@ -193,8 +193,6 @@ TARGET_LINK_LIBRARIES(skia_tutorial
         ${SKIA_SDK_LIB}/libsksg.a
         ${SKIA_SDK_LIB}/libskshaper.a
         ${SKIA_SDK_LIB}/libskunicode.a
-        # ${SKIA_SDK_LIB}/libspvtools.a
-        # ${SKIA_SDK_LIB}/libspvtools_val.a
         ${SKIA_SDK_LIB}/libsvg.a
         ${SKIA_SDK_LIB}/libwebp.a
         ${SKIA_SDK_LIB}/libwebp_sse41.a
