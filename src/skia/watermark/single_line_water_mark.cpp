@@ -196,6 +196,81 @@ std::string drawWaterMarkModelTwo(SkCanvas *canvas) {
     return "multi_line_water_mark_model_two.png";
 }
 
+std::string drawMultilinesWaterMark(SkCanvas *canvas) {
+    // 清处背景
+    canvas->clear(SK_ColorWHITE);
+    // 创建SkFont和文字大小
+    // 创建字体对象
+    SkFont font(nullptr, 30.0f);
+    // 抗锯齿
+    font.setEdging(SkFont::Edging::kAntiAlias);
+
+    // 文本
+    std::vector<std::string> labels;
+    labels.push_back("centforever 李逍遥");
+    labels.push_back("2515");
+
+    int column = 3; //默认3列
+    int row = 0;//默认0行
+
+    // view宽
+    auto width = canvas->imageInfo().width();
+    // view高
+    auto height = canvas->imageInfo().height();
+
+    // 更新行列
+    row = height / (width / 3);
+
+    // padding left right偏移
+    int startW = 16;
+    // padding top bottom偏移
+    int startH = 16;
+
+    // 创建SkPaint对象并设置文本样式
+    SkPaint paint;
+    paint.setAntiAlias(true);
+    // 设置文本颜色
+    paint.setColor(SK_ColorBLACK);
+
+    auto tileW = (width - 2 * startW) / column;//宽
+    auto tileH = (height - 2 * startH) / row;//高
+
+    float startX = 0, startY = 0;
+    for (int i = 0; i < column + 1; i ++) { //横向分隔,线条数=格数+1，画竖线
+        startX = startW + i * tileW;
+        startY = startH;
+        canvas->drawLine(startX, startY, startX, height - startH, paint);//(x,y[min])-->(x,y[max])
+    }
+    for (int i = 0; i < row + 1; i ++) {//纵向分隔,线条数=格数+1，画横线
+        startX = startW;
+        startY = startH + i * tileH;
+        canvas->drawLine(startX, startY, width - startW, startY, paint);//(x[min],y)-->(x[max],y)
+    }
+
+    for (int i = 0; i < column + 1; i ++) {
+        for (int j = 0; j < row + 1; j ++) {
+            canvas->save();
+            canvas->translate(startX, startY);
+            canvas->rotate(-45);
+            startX = startW + i * tileW;
+            startY = startH + j * tileH;
+            for (std::string text:labels) {
+                // 文字baseline在y轴方向的位置
+                SkFontMetrics fontMetrics{};
+                font.getMetrics(&fontMetrics);
+                float baseLineY = std::abs(fontMetrics.fDescent + fontMetrics.fAscent) / 2;
+                // 文本长度
+                size_t length = strlen(text.c_str());
+                // 文字宽
+                float textWidth = font.measureText(text.c_str(), length, SkTextEncoding::kUTF8);
+                canvas->drawSimpleText(text.c_str(), length, SkTextEncoding::kUTF8, textWidth, baseLineY, font, paint);
+            }
+            canvas->restore();
+        }
+    }
+    return "multi_line_water_mark.png";
+}
+
 int main() {
     //加载图片资源
     SkBitmap canvasBitmap;
@@ -203,7 +278,7 @@ int main() {
     canvasBitmap.allocPixels(imageInfo, imageInfo.minRowBytes());  //为位图设备绑定信息和分配内存
 
     SkCanvas canvas(canvasBitmap);
-    std::string fileName = drawSingleWaterMark(&canvas);
+    std::string fileName = drawMultilinesWaterMark(&canvas);
     //将绘制结果保存到图片文件中
     std::string current_directory = File::get_current_directory();
     std::filesystem::path current_path = std::filesystem::current_path();
