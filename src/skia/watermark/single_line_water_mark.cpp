@@ -208,7 +208,7 @@ std::string drawMultilinesWaterMark(SkCanvas *canvas) {
 
     // 文本
     std::vector<std::string> labels;
-    labels.push_back("centforever");
+    labels.push_back("centforever ddddddddddddddddddd");
     labels.push_back("2515");
 
     int column = 3; //默认3列
@@ -250,6 +250,27 @@ std::string drawMultilinesWaterMark(SkCanvas *canvas) {
         canvas->drawLine(startX, startY, width - startW, startY, paint);//(x[min],y)-->(x[max],y)
     }
 
+    std::vector<std::string> subLabels;
+    auto isCutOff = false;
+    for (int k = 0; k < labels.size(); k++) {
+        std::string text = labels[k];
+        // 文本长度
+        size_t length = strlen(text.c_str());
+        // 文字宽
+        float textWidth = font.measureText(text.c_str(), length, SkTextEncoding::kUTF8);
+        std::cout << "textWidth: " << textWidth << std::endl;
+        std::cout << "percentWH: " << percentWH << std::endl;
+        while (textWidth > percentWH) {
+            isCutOff = true;
+            text = text.substr(0,text.length() - 1);
+            textWidth = font.measureText(text.c_str(), length, SkTextEncoding::kUTF8);
+        }
+        if (isCutOff) {
+            subLabels.push_back(text);
+            std::cout << "subLabels text: " << text << std::endl;
+        }
+    }
+
     // 文字baseline在y轴方向的位置
     SkFontMetrics fontMetrics{};
     font.getMetrics(&fontMetrics);
@@ -272,8 +293,8 @@ std::string drawMultilinesWaterMark(SkCanvas *canvas) {
                 canvas->drawSimpleText(text.c_str(),
                                        length,
                                        SkTextEncoding::kUTF8,
-                                       (percentWH - textWidth / 2 - percentWH / 2) + percentWH / 4,
-                                       (fontHeight * k - percentWH / 2) + percentWH / 2,
+                                       (percentWH / 2 - textWidth / 2) + percentWH / 4,
+                                       fontHeight * k - fontHeight,
                                        font,
                                        paint);
 
