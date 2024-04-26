@@ -94,12 +94,12 @@ std::string drawWaterMarkModelOne(SkCanvas *canvas) {
     auto tileH = (height - 2 * startH) / row;//高
 
     float startX = 0, startY = 0;
-    for (int i = 0; i < column + 1; i ++) { //横向分隔,线条数=格数+1，画竖线
+    for (int i = 0; i < column + 1; i++) { //横向分隔,线条数=格数+1，画竖线
         startX = startW + i * tileW;
         startY = startH;
         canvas->drawLine(startX, startY, startX, height - startH, paint);//(x,y[min])-->(x,y[max])
     }
-    for (int i = 0; i < row + 1; i ++) {//纵向分隔,线条数=格数+1，画横线
+    for (int i = 0; i < row + 1; i++) {//纵向分隔,线条数=格数+1，画横线
         startX = startW;
         startY = startH + i * tileH;
         canvas->drawLine(startX, startY, width - startW, startY, paint);//(x[min],y)-->(x[max],y)
@@ -110,14 +110,15 @@ std::string drawWaterMarkModelOne(SkCanvas *canvas) {
     font.getMetrics(&fontMetrics);
     float baseLineY = std::abs(fontMetrics.fDescent + fontMetrics.fAscent) / 2;
 
-    for (int i = 0; i < column + 1; i ++) {
-        for (int j = 0; j < row + 1; j ++) {
+    for (int i = 0; i < column + 1; i++) {
+        for (int j = 0; j < row + 1; j++) {
             canvas->save();
             canvas->translate(startX, startY);
             canvas->rotate(-45);
             startX = startW + i * tileW;
             startY = startH + j * tileH;
-            canvas->drawSimpleText(text, length, SkTextEncoding::kUTF8, textWidth / 2, baseLineY + tileH / 2, font, paint);
+            canvas->drawSimpleText(text, length, SkTextEncoding::kUTF8, textWidth / 2, baseLineY + tileH / 2, font,
+                                   paint);
             canvas->restore();
         }
     }
@@ -166,12 +167,12 @@ std::string drawWaterMarkModelTwo(SkCanvas *canvas) {
     auto tileH = (height - 2 * startH) / row;//高
 
     float startX = 0, startY = 0;
-    for (int i = 0; i < column + 1; i ++) { //横向分隔,线条数=格数+1，画竖线
+    for (int i = 0; i < column + 1; i++) { //横向分隔,线条数=格数+1，画竖线
         startX = startW + i * tileW;
         startY = startH;
         canvas->drawLine(startX, startY, startX, height - startH, paint);//(x,y[min])-->(x,y[max])
     }
-    for (int i = 0; i < row + 1; i ++) {//纵向分隔,线条数=格数+1，画横线
+    for (int i = 0; i < row + 1; i++) {//纵向分隔,线条数=格数+1，画横线
         startX = startW;
         startY = startH + i * tileH;
         canvas->drawLine(startX, startY, width - startW, startY, paint);//(x[min],y)-->(x[max],y)
@@ -182,8 +183,8 @@ std::string drawWaterMarkModelTwo(SkCanvas *canvas) {
     font.getMetrics(&fontMetrics);
     float baseLineY = std::abs(fontMetrics.fDescent + fontMetrics.fAscent) / 2;
 
-    for (int i = 0; i < column + 1; i ++) {
-        for (int j = 0; j < row + 1; j ++) {
+    for (int i = 0; i < column + 1; i++) {
+        for (int j = 0; j < row + 1; j++) {
             canvas->save();
             canvas->translate(startX, startY);
             canvas->rotate(-45);
@@ -207,7 +208,7 @@ std::string drawMultilinesWaterMark(SkCanvas *canvas) {
 
     // 文本
     std::vector<std::string> labels;
-    labels.push_back("centforever 李逍遥");
+    labels.push_back("centforever");
     labels.push_back("2515");
 
     int column = 3; //默认3列
@@ -226,6 +227,8 @@ std::string drawMultilinesWaterMark(SkCanvas *canvas) {
     // padding top bottom偏移
     int startH = 16;
 
+    auto percentWH = (width - startW * 2) / 3;
+
     // 创建SkPaint对象并设置文本样式
     SkPaint paint;
     paint.setAntiAlias(true);
@@ -236,34 +239,51 @@ std::string drawMultilinesWaterMark(SkCanvas *canvas) {
     auto tileH = (height - 2 * startH) / row;//高
 
     float startX = 0, startY = 0;
-    for (int i = 0; i < column + 1; i ++) { //横向分隔,线条数=格数+1，画竖线
+    for (int i = 0; i < column + 1; i++) { //横向分隔,线条数=格数+1，画竖线
         startX = startW + i * tileW;
         startY = startH;
         canvas->drawLine(startX, startY, startX, height - startH, paint);//(x,y[min])-->(x,y[max])
     }
-    for (int i = 0; i < row + 1; i ++) {//纵向分隔,线条数=格数+1，画横线
+    for (int i = 0; i < row + 1; i++) {//纵向分隔,线条数=格数+1，画横线
         startX = startW;
         startY = startH + i * tileH;
         canvas->drawLine(startX, startY, width - startW, startY, paint);//(x[min],y)-->(x[max],y)
     }
 
-    for (int i = 0; i < column + 1; i ++) {
-        for (int j = 0; j < row + 1; j ++) {
+    // 文字baseline在y轴方向的位置
+    SkFontMetrics fontMetrics{};
+    font.getMetrics(&fontMetrics);
+    float baseLineY = std::abs(fontMetrics.fDescent + fontMetrics.fAscent) / 2;
+    float fontHeight = fontMetrics.fDescent - fontMetrics.fAscent;
+
+    for (int i = 0; i < column + 1; i++) {
+        for (int j = 0; j < row + 1; j++) {
             canvas->save();
             canvas->translate(startX, startY);
-            canvas->rotate(-45);
             startX = startW + i * tileW;
             startY = startH + j * tileH;
-            for (std::string text:labels) {
-                // 文字baseline在y轴方向的位置
-                SkFontMetrics fontMetrics{};
-                font.getMetrics(&fontMetrics);
-                float baseLineY = std::abs(fontMetrics.fDescent + fontMetrics.fAscent) / 2;
+            canvas->rotate(-45);
+            for (int k = 0; k < labels.size(); k++) {
+                std::string text = labels[k];
                 // 文本长度
                 size_t length = strlen(text.c_str());
                 // 文字宽
                 float textWidth = font.measureText(text.c_str(), length, SkTextEncoding::kUTF8);
-                canvas->drawSimpleText(text.c_str(), length, SkTextEncoding::kUTF8, textWidth, baseLineY, font, paint);
+                canvas->drawSimpleText(text.c_str(),
+                                       length,
+                                       SkTextEncoding::kUTF8,
+                                       (percentWH - textWidth / 2 - percentWH / 2) + percentWH / 4,
+                                       (fontHeight * k - percentWH / 2) + percentWH / 2,
+                                       font,
+                                       paint);
+
+                /*canvas->drawSimpleText(text.c_str(),
+                                       length,
+                                       SkTextEncoding::kUTF8,
+                                       (percentWH - textWidth / 2 - percentWH / 2),
+                                       (fontHeight * k - percentWH / 2),
+                                       font,
+                                       paint);*/
             }
             canvas->restore();
         }
