@@ -413,8 +413,8 @@ std::string drawMultiTwolinesWaterMark(SkCanvas *canvas) {
             subLabels.push_back(text);
         }
     }
-    for (int k = 0; k < subLabels.size(); k++) {
-        std::cout << "print subLabels text: " << subLabels[k] << std::endl;
+    for (const auto & subLabel : subLabels) {
+        std::cout << "print subLabels text: " << subLabel << std::endl;
     }
 
     // 文字baseline在y轴方向的位置
