@@ -208,7 +208,7 @@ std::string drawMultilinesWaterMark(SkCanvas *canvas) {
 
     // 文本
     std::vector<std::string> labels;
-    labels.push_back("centforever ddddddddddddddddddd");
+    labels.push_back("centforever test 187******** 2024-04-14");
     labels.push_back("2515");
 
     int column = 3; //默认3列
@@ -263,12 +263,18 @@ std::string drawMultilinesWaterMark(SkCanvas *canvas) {
         while (textWidth > percentWH) {
             isCutOff = true;
             text = text.substr(0,text.length() - 1);
+            std::cout << "text.substr text: " << text << std::endl;
             textWidth = font.measureText(text.c_str(), length, SkTextEncoding::kUTF8);
         }
         if (isCutOff) {
             subLabels.push_back(text);
             std::cout << "subLabels text: " << text << std::endl;
+        } else {
+            subLabels.push_back(text);
         }
+    }
+    for (int k = 0; k < subLabels.size(); k++) {
+        std::cout << "print subLabels text: " << subLabels[k] << std::endl;
     }
 
     // 文字baseline在y轴方向的位置
@@ -284,8 +290,9 @@ std::string drawMultilinesWaterMark(SkCanvas *canvas) {
             startX = startW + i * tileW;
             startY = startH + j * tileH;
             canvas->rotate(-45);
-            for (int k = 0; k < labels.size(); k++) {
-                std::string text = labels[k];
+            for (int k = 0; k < subLabels.size(); k++) {
+                std::string text = subLabels[k];
+                std::cout << "draw subLabels text: " << subLabels[k] << std::endl;
                 // 文本长度
                 size_t length = strlen(text.c_str());
                 // 文字宽
