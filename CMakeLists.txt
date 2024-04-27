@@ -98,7 +98,7 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 
 # ------- watermark ---------- #
 # add_executable(skia_tutorial src/skia/watermark/water_mark_test.cpp src/skia/file.cpp)
-add_executable(skia_tutorial src/skia/watermark/single_line_water_mark.cpp src/skia/file.cpp)
+add_executable(skia_tutorial src/skia/watermark/water_mark.cpp src/skia/file.cpp)
 
 # ------- percent ---------- #
 # add_executable(skia_tutorial src/skia/50_percent/50_percent_gray.cpp src/skia/file.cpp)
