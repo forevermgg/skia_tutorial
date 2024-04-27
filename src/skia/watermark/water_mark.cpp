@@ -334,6 +334,165 @@ std::string drawMultilinesWaterMark(SkCanvas *canvas) {
     return "multi_line_water_mark.png";
 }
 
+std::string drawMultiTwolinesWaterMark(SkCanvas *canvas) {
+    // 清处背景
+    canvas->clear(SK_ColorWHITE);
+    // 创建SkFont和文字大小
+    // 创建字体对象
+    SkFont font(nullptr, 30.0f);
+    // 抗锯齿
+    font.setEdging(SkFont::Edging::kAntiAlias);
+
+    // 文本
+    std::vector<std::string> labels;
+    labels.push_back("centforever test 187******** 2024-04-14");
+    labels.push_back("2515");
+    /*labels.push_back("centforever");
+    labels.push_back("2515");*/
+
+    int column = 3; //默认3列
+    int row = 0;//默认0行
+
+    // view宽
+    auto width = canvas->imageInfo().width();
+    // view高
+    auto height = canvas->imageInfo().height();
+
+    // 更新行列
+    row = height / (width / 3);
+
+    // padding left right偏移
+    int startW = 16;
+    // padding top bottom偏移
+    int startH = 16;
+
+    auto percentWH = (width - startW * 2) / 3;
+
+    // 创建SkPaint对象并设置文本样式
+    SkPaint paint;
+    paint.setAntiAlias(true);
+    // 设置文本颜色
+    paint.setColor(SK_ColorBLACK);
+    std::cout << "column: " << column << std::endl;
+    std::cout << "row: " << row << std::endl;
+    auto tileW = (width - 2 * startW) / column;//宽
+    auto tileH = percentWH;
+
+    float startX = 0, startY = 0;
+    for (int i = 0; i < column + 1; i++) { //横向分隔,线条数=格数+1，画竖线
+        startX = startW + i * tileW;
+        startY = startH;
+        canvas->drawLine(startX, startY, startX, height - startH, paint);//(x,y[min])-->(x,y[max])
+    }
+    for (int i = 0; i < row + 1; i++) {//纵向分隔,线条数=格数+1，画横线
+        startX = startW;
+        startY = startH + i * tileH;
+        canvas->drawLine(startX, startY, width - startW, startY, paint);//(x[min],y)-->(x[max],y)
+    }
+
+    std::vector<std::string> subLabels;
+    auto isCutOff = false;
+    for (int k = 0; k < labels.size(); k++) {
+        std::string text = labels[k];
+        // 文本长度
+        size_t length = strlen(text.c_str());
+        // 文字宽度
+        float textWidth = font.measureText(text.c_str(), length, SkTextEncoding::kUTF8);
+        std::cout << "textWidth: " << textWidth << std::endl;
+        std::cout << "percentWH: " << percentWH << std::endl;
+        while (textWidth > percentWH) {
+            isCutOff = true;
+            text = text.substr(0,text.length() - 1);
+            std::cout << "text.substr text: " << text << std::endl;
+            textWidth = font.measureText(text.c_str(), length, SkTextEncoding::kUTF8);
+        }
+        if (isCutOff) {
+            subLabels.push_back(text);
+            std::cout << "subLabels text: " << text << std::endl;
+        } else {
+            subLabels.push_back(text);
+        }
+    }
+    for (int k = 0; k < subLabels.size(); k++) {
+        std::cout << "print subLabels text: " << subLabels[k] << std::endl;
+    }
+
+    // 文字baseline在y轴方向的位置
+    SkFontMetrics fontMetrics{};
+    font.getMetrics(&fontMetrics);
+    float baseLineY = std::abs(fontMetrics.fDescent + fontMetrics.fAscent) / 2;
+    // 文本高度：文本的高度就是实际绘制区域的高度，可以用(fontMetrics.descent - fontMetrics.ascent)获取，因为ascent为负数，所以最终算出来的是两者的和
+    float fontHeight = fontMetrics.fDescent - fontMetrics.fAscent;
+    // top绝对值
+    float top = abs(fontMetrics.fTop);
+    // ascent绝对值
+    float ascent = abs(fontMetrics.fAscent);
+    // descent，正值
+    float descent = fontMetrics.fDescent;
+    // bottom，正值
+    float bottom = fontMetrics.fBottom;
+    // 行数
+    int textLines = subLabels.size();
+    // 文本高度
+    float textHeight = top + bottom;
+    // 文本总高度
+    float textTotalHeight = textHeight * textLines;
+    // 基数
+    float basePosition = (textLines - 1) / 2.0f;
+    // 间距
+    auto textPadding = 16;
+    auto padding = 0;
+    for (int i = 0; i < column + 1; i++) {
+        for (int j = 0; j < row + 1; j++) {
+            canvas->save();
+            canvas->translate(startX, startY);
+            startX = startW + i * tileW;
+            startY = startH + j * tileH;
+            std::cout << "startX: " << startX << "startY: " << startY << std::endl;
+            // 将坐标原点移到控件中心
+            canvas->translate(percentWH / 2, percentWH / 2);
+            // x轴
+            canvas->drawLine(-percentWH / 2, 0, percentWH / 2, 0, paint);
+            // y轴
+            canvas->drawLine(0, -percentWH / 2, 0, percentWH / 2, paint);
+            canvas->rotate(-45);
+            for (int k = 0; k < subLabels.size(); k++) {
+                std::string text = subLabels[k];
+                // 文本长度宽
+                size_t length = strlen(text.c_str());
+                // 文字宽
+                float textWidth = font.measureText(text.c_str(), length, SkTextEncoding::kUTF8);
+                // 文本baseline在y轴方向的位置
+                float baselineY;
+                if (k < basePosition) {
+                    // x轴上，值为负
+                    // 总高度的/2 - 已绘制的文本高度 - 文本的top值（绝对值）
+                    baselineY = -(textTotalHeight / 2 - textHeight * k - top);
+
+                } else if (k > basePosition) {
+                    // x轴下，值为正
+                    // 总高度的/2 - 未绘制的文本高度 - 文本的bottom值（绝对值）
+                    baselineY = textTotalHeight / 2 - textHeight * (textLines - k - 1) - bottom;
+
+                } else {
+                    // x轴中，值为正
+                    // 计算公式请参考单行文本居中公式
+                    baselineY = (ascent - descent) / 2;
+                }
+                canvas->drawSimpleText(text.c_str(),
+                                       length,
+                                       SkTextEncoding::kUTF8,
+                                       -textWidth / 2,
+                                       baselineY,
+                                       font,
+                                       paint);
+            }
+            canvas->restore();
+        }
+    }
+    return "multi_two_line_water_mark.png";
+}
+
 int main() {
     //加载图片资源
     SkBitmap canvasBitmap;
@@ -341,7 +500,7 @@ int main() {
     canvasBitmap.allocPixels(imageInfo, imageInfo.minRowBytes());  //为位图设备绑定信息和分配内存
 
     SkCanvas canvas(canvasBitmap);
-    std::string fileName = drawMultilinesWaterMark(&canvas);
+    std::string fileName = drawMultiTwolinesWaterMark(&canvas);
     //将绘制结果保存到图片文件中
     std::string current_directory = File::get_current_directory();
     std::filesystem::path current_path = std::filesystem::current_path();
