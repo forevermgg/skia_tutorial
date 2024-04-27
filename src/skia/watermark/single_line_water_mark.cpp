@@ -283,7 +283,22 @@ std::string drawMultilinesWaterMark(SkCanvas *canvas) {
     float baseLineY = std::abs(fontMetrics.fDescent + fontMetrics.fAscent) / 2;
     // 文本高度：文本的高度就是实际绘制区域的高度，可以用(fontMetrics.descent - fontMetrics.ascent)获取，因为ascent为负数，所以最终算出来的是两者的和
     float fontHeight = fontMetrics.fDescent - fontMetrics.fAscent;
-
+    // 间距
+    auto textPadding = 32;
+    auto padding = 0;
+    /*auto padding = 0;
+    int setSizes = 10 - 1;
+    int splitPoint = setSizes / 2.0;
+    for (int i = 0; i < setSizes; i++) {
+        double gap = i / 2.0;
+        padding = i > splitPoint ? (textPadding * (i - splitPoint)) : (textPadding * (-splitPoint + i));
+        std::cout <<
+        " 除数: " << gap <<
+        " 剩数: " << i % 2 <<
+        " 分割点: " << splitPoint <<
+        " padding: " << padding <<
+        std::endl;
+    }*/
     for (int i = 0; i < column + 1; i++) {
         for (int j = 0; j < row + 1; j++) {
             canvas->save();
@@ -291,22 +306,18 @@ std::string drawMultilinesWaterMark(SkCanvas *canvas) {
             startX = startW + i * tileW;
             startY = startH + j * tileH;
             canvas->rotate(-45);
-            auto textPadding = 32;
             for (int k = 0; k < subLabels.size(); k++) {
                 std::string text = subLabels[k];
-                std::cout << "draw subLabels text: " << subLabels[k] << std::endl;
-                // 文本长度
+                // std::cout << "draw subLabels text: " << subLabels[k] << std::endl;
+                // 文本长度宽
                 size_t length = strlen(text.c_str());
                 // 文字宽
                 float textWidth = font.measureText(text.c_str(), length, SkTextEncoding::kUTF8);
-                // 间距
-                auto padding = 0;
-                padding = -textPadding / 2;
                 canvas->drawSimpleText(text.c_str(),
                                        length,
                                        SkTextEncoding::kUTF8,
                                        SkScalar((percentWH / 2.0 - textWidth / 2.0) + percentWH / 4.0),
-                                       SkScalar(fontHeight * k * 1.0 - fontHeight),
+                                       SkScalar(fontHeight * k * 1.0 - fontHeight) + padding,
                                        font,
                                        paint);
                 /*canvas->drawSimpleText(text.c_str(),
