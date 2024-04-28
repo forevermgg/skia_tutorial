@@ -26,7 +26,7 @@ std::string drawSingleWaterMark(SkCanvas *canvas) {
     font.setEdging(SkFont::Edging::kAntiAlias);
 
     // 计算文本的宽度
-    const char *text = "centforever test 187******** \n 2024-04-14";
+    const char *text = "centforever test 187********\u0a002024-04-14";
     size_t length = strlen(text);
     SkScalar textWidth = font.measureText(text, length, SkTextEncoding::kUTF8);
 
@@ -500,7 +500,7 @@ int main() {
     canvasBitmap.allocPixels(imageInfo, imageInfo.minRowBytes());  //为位图设备绑定信息和分配内存
 
     SkCanvas canvas(canvasBitmap);
-    std::string fileName = drawMultiTwolinesWaterMark(&canvas);
+    std::string fileName = drawSingleWaterMark(&canvas);
     //将绘制结果保存到图片文件中
     std::string current_directory = File::get_current_directory();
     std::filesystem::path current_path = std::filesystem::current_path();
