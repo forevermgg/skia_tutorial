@@ -524,9 +524,9 @@ int main() {
     std::vector<std::string> results;
     std::string origin_content = "hello\u00a0world";
     std::cout << "print origin_content text: " << origin_content << std::endl;
-    std::string result = std::regex_replace(origin_content, std::regex("\u00a0"), ";");
-    std::cout << "print regex_replace origin_content text: " << result << std::endl;
-    const bool splitted = SplitAndParse(result, ';', &results);
+    std::string regex_replace_result = std::regex_replace(origin_content, std::regex("\u00a0"), ";");
+    std::cout << "print regex_replace origin_content text: " << regex_replace_result << std::endl;
+    const bool splitted = SplitAndParse(regex_replace_result, ';', &results);
     if (splitted) {
         for (const auto & result : results) {
             std::cout << "print result text: " << result << std::endl;
