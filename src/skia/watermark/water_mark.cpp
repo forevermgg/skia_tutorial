@@ -37,6 +37,17 @@ bool SplitAndParse(const std::string& str, char delim, std::vector<T>* values) {
     return true;
 }
 
+// Define a split string function to ...
+static std::vector<std::string> split_string(const std::string& input, char delimiter) {
+    std::vector<std::string> tokens;
+    std::istringstream stream(input);
+    std::string token;
+    while (std::getline(stream, token, delimiter)) {
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
 std::string drawSingleWaterMark(SkCanvas *canvas) {
     canvas->clear(SK_ColorWHITE);
 
