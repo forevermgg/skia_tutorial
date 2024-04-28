@@ -15,8 +15,27 @@
 #include "include/core/SkShader.h"
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <vector>
 #include <filesystem>
+#include <regex>
+#include <algorithm>
 #include "skia/file.h"
+
+template <typename T>
+bool SplitAndParse(const std::string& str, char delim, std::vector<T>* values) {
+    std::istringstream input(str);
+    for (std::string line; std::getline(input, line, delim);) {
+        std::istringstream to_parse(line);
+        T val;
+        to_parse >> val;
+        if (!to_parse.eof() && !to_parse.good()) {
+            return false;
+        }
+        values->emplace_back(val);
+    }
+    return true;
+}
 
 std::string drawSingleWaterMark(SkCanvas *canvas) {
     canvas->clear(SK_ColorWHITE);
@@ -501,6 +520,19 @@ int main() {
 
     SkCanvas canvas(canvasBitmap);
     std::string fileName = drawSingleWaterMark(&canvas);
+
+    std::vector<std::string> results;
+    std::string origin_content = "hello\u00a0world";
+    std::cout << "print origin_content text: " << origin_content << std::endl;
+    std::string result = std::regex_replace(origin_content, std::regex("\u00a0"), ";");
+    std::cout << "print regex_replace origin_content text: " << result << std::endl;
+    const bool splitted = SplitAndParse(result, ';', &results);
+    if (splitted) {
+        for (const auto & result : results) {
+            std::cout << "print result text: " << result << std::endl;
+        }
+    }
+
     //将绘制结果保存到图片文件中
     std::string current_directory = File::get_current_directory();
     std::filesystem::path current_path = std::filesystem::current_path();
