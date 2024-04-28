@@ -26,7 +26,7 @@ std::string drawSingleWaterMark(SkCanvas *canvas) {
     font.setEdging(SkFont::Edging::kAntiAlias);
 
     // 计算文本的宽度
-    const char *text = "centforever test 187********\u0a002024-04-14";
+    const char *text = "centforever test 187********\u00a02024-04-14";
     size_t length = strlen(text);
     SkScalar textWidth = font.measureText(text, length, SkTextEncoding::kUTF8);
 
