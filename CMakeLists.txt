@@ -133,11 +133,16 @@ add_executable(skia_tutorial src/skia/skparagraph/hello_check_font.cpp src/skia/
 # ------- End Executable - #
 
 # ------- Finds ---------- #
-find_package(glfw3 REQUIRED)
-find_package(GLEW REQUIRED)
-FIND_PACKAGE(SDL2 REQUIRED)
-find_package(OpenCV)
+FIND_PACKAGE(glfw3 REQUIRED)
+FIND_PACKAGE(GLEW REQUIRED)
+
+FIND_PACKAGE(iconv REQUIRED)
+include_directories(${ICONV_INCLUDE_DIRS})
+
+FIND_PACKAGE(OpenCV)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
+
+FIND_PACKAGE(SDL2 REQUIRED)
 Message("")
 Message( STATUS "FINDING SDL2" )
 IF (${SDL2_FOUND})
@@ -210,6 +215,7 @@ TARGET_LINK_LIBRARIES(skia_tutorial
         glfw
         GLEW::GLEW
         ${OpenCV_LIBS}
+        ${ICONV_LIBRARIES}
 )
 # ------- End ----------- #
 
