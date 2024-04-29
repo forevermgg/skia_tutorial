@@ -56,8 +56,9 @@ std::string drawSingleWaterMark(SkCanvas *canvas) {
   canvas->clear(SK_ColorWHITE);
 
   // 创建SkPaint对象并设置文本样式
-  // sk_sp<SkTypeface> typeface = SkTypeface::MakeFromFile("resources/Skia.ttf");
-  SkFont font(SkTypeface::MakeDefault(), 30.0f);  // 创建字体对象
+  // sk_sp<SkTypeface> typeface =
+  // SkTypeface::MakeFromFile("resources/Skia.ttf");
+  SkFont font(SkTypeface::MakeDefault(), 30.0f); // 创建字体对象
   font.setEdging(SkFont::Edging::kAntiAlias);
 
   // 计算文本的宽度
@@ -72,21 +73,22 @@ std::string drawSingleWaterMark(SkCanvas *canvas) {
   // 创建SkPaint对象并设置文本样式
   SkPaint paint;
   paint.setAntiAlias(true);
-  paint.setColor(SK_ColorBLACK);  // 设置文本颜色
+  paint.setColor(SK_ColorBLACK); // 设置文本颜色
   canvas->rotate(-45, canvas->imageInfo().width() / 2,
                  canvas->imageInfo().height() / 2);
 
   // 计算文本的绘制位置
-  float x = (canvas->imageInfo().width() - textWidth) / 2;  // 水平居中
+  float x = (canvas->imageInfo().width() - textWidth) / 2; // 水平居中
   SkFontMetrics fontMetrics{};
   font.getMetrics(&fontMetrics);
   float y = (canvas->imageInfo().height() + fontMetrics.fDescent -
              fontMetrics.fAscent) /
-            2;  // 垂直居中
+            2; // 垂直居中
 
   // 将文本绘制到画布上
-  sk_sp<SkTextBlob> blob = SkTextBlob::MakeFromText(text, length, font, SkTextEncoding::kUTF8);
-  canvas->drawTextBlob(blob, x, y,paint);
+  sk_sp<SkTextBlob> blob =
+      SkTextBlob::MakeFromText(text, length, font, SkTextEncoding::kUTF8);
+  canvas->drawTextBlob(blob, x, y, paint);
   return "single_line_water_mark.png";
 }
 
@@ -106,8 +108,8 @@ std::string drawWaterMarkModelOne(SkCanvas *canvas) {
   // 文字宽
   float textWidth = font.measureText(text, length, SkTextEncoding::kUTF8);
 
-  int column = 3;  // 默认3列
-  int row = 0;     // 默认0行
+  int column = 3; // 默认3列
+  int row = 0;    // 默认0行
 
   // view宽
   auto width = canvas->imageInfo().width();
@@ -129,21 +131,21 @@ std::string drawWaterMarkModelOne(SkCanvas *canvas) {
   // 设置文本颜色
   paint.setColor(SK_ColorBLACK);
 
-  auto tileW = (width - 2 * startW) / column;  // 宽
-  auto tileH = (height - 2 * startH) / row;    // 高
+  auto tileW = (width - 2 * startW) / column; // 宽
+  auto tileH = (height - 2 * startH) / row;   // 高
 
   float startX = 0, startY = 0;
-  for (int i = 0; i < column + 1; i++) {  // 横向分隔,线条数=格数+1，画竖线
+  for (int i = 0; i < column + 1; i++) { // 横向分隔,线条数=格数+1，画竖线
     startX = startW + i * tileW;
     startY = startH;
     canvas->drawLine(startX, startY, startX, height - startH,
-                     paint);  //(x,y[min])-->(x,y[max])
+                     paint); //(x,y[min])-->(x,y[max])
   }
-  for (int i = 0; i < row + 1; i++) {  // 纵向分隔,线条数=格数+1，画横线
+  for (int i = 0; i < row + 1; i++) { // 纵向分隔,线条数=格数+1，画横线
     startX = startW;
     startY = startH + i * tileH;
     canvas->drawLine(startX, startY, width - startW, startY,
-                     paint);  //(x[min],y)-->(x[max],y)
+                     paint); //(x[min],y)-->(x[max],y)
   }
 
   // 文字baseline在y轴方向的位置
@@ -182,8 +184,8 @@ std::string drawWaterMarkModelTwo(SkCanvas *canvas) {
   // 文字宽
   float textWidth = font.measureText(text, length, SkTextEncoding::kUTF8);
 
-  int column = 3;  // 默认3列
-  int row = 0;     // 默认0行
+  int column = 3; // 默认3列
+  int row = 0;    // 默认0行
 
   // view宽
   auto width = canvas->imageInfo().width();
@@ -204,21 +206,21 @@ std::string drawWaterMarkModelTwo(SkCanvas *canvas) {
   // 设置文本颜色
   paint.setColor(SK_ColorBLACK);
 
-  auto tileW = (width - 2 * startW) / column;  // 宽
-  auto tileH = (height - 2 * startH) / row;    // 高
+  auto tileW = (width - 2 * startW) / column; // 宽
+  auto tileH = (height - 2 * startH) / row;   // 高
 
   float startX = 0, startY = 0;
-  for (int i = 0; i < column + 1; i++) {  // 横向分隔,线条数=格数+1，画竖线
+  for (int i = 0; i < column + 1; i++) { // 横向分隔,线条数=格数+1，画竖线
     startX = startW + i * tileW;
     startY = startH;
     canvas->drawLine(startX, startY, startX, height - startH,
-                     paint);  //(x,y[min])-->(x,y[max])
+                     paint); //(x,y[min])-->(x,y[max])
   }
-  for (int i = 0; i < row + 1; i++) {  // 纵向分隔,线条数=格数+1，画横线
+  for (int i = 0; i < row + 1; i++) { // 纵向分隔,线条数=格数+1，画横线
     startX = startW;
     startY = startH + i * tileH;
     canvas->drawLine(startX, startY, width - startW, startY,
-                     paint);  //(x[min],y)-->(x[max],y)
+                     paint); //(x[min],y)-->(x[max],y)
   }
 
   // 文字baseline在y轴方向的位置
@@ -255,8 +257,8 @@ std::string drawMultilinesWaterMark(SkCanvas *canvas) {
   labels.push_back("centforever test 187******** 2024-04-14");
   labels.push_back("2515");
 
-  int column = 3;  // 默认3列
-  int row = 0;     // 默认0行
+  int column = 3; // 默认3列
+  int row = 0;    // 默认0行
 
   // view宽
   auto width = canvas->imageInfo().width();
@@ -279,21 +281,21 @@ std::string drawMultilinesWaterMark(SkCanvas *canvas) {
   // 设置文本颜色
   paint.setColor(SK_ColorBLACK);
 
-  auto tileW = (width - 2 * startW) / column;  // 宽
-  auto tileH = (height - 2 * startH) / row;    // 高
+  auto tileW = (width - 2 * startW) / column; // 宽
+  auto tileH = (height - 2 * startH) / row;   // 高
 
   float startX = 0, startY = 0;
-  for (int i = 0; i < column + 1; i++) {  // 横向分隔,线条数=格数+1，画竖线
+  for (int i = 0; i < column + 1; i++) { // 横向分隔,线条数=格数+1，画竖线
     startX = startW + i * tileW;
     startY = startH;
     canvas->drawLine(startX, startY, startX, height - startH,
-                     paint);  //(x,y[min])-->(x,y[max])
+                     paint); //(x,y[min])-->(x,y[max])
   }
-  for (int i = 0; i < row + 1; i++) {  // 纵向分隔,线条数=格数+1，画横线
+  for (int i = 0; i < row + 1; i++) { // 纵向分隔,线条数=格数+1，画横线
     startX = startW;
     startY = startH + i * tileH;
     canvas->drawLine(startX, startY, width - startW, startY,
-                     paint);  //(x[min],y)-->(x[max],y)
+                     paint); //(x[min],y)-->(x[max],y)
   }
 
   std::vector<std::string> subLabels;
@@ -394,8 +396,8 @@ std::string drawMultiTwolinesWaterMark(SkCanvas *canvas) {
   /*labels.push_back("centforever");
   labels.push_back("2515");*/
 
-  int column = 3;  // 默认3列
-  int row = 0;     // 默认0行
+  int column = 3; // 默认3列
+  int row = 0;    // 默认0行
 
   // view宽
   auto width = canvas->imageInfo().width();
@@ -419,21 +421,21 @@ std::string drawMultiTwolinesWaterMark(SkCanvas *canvas) {
   paint.setColor(SK_ColorBLACK);
   std::cout << "column: " << column << std::endl;
   std::cout << "row: " << row << std::endl;
-  auto tileW = (width - 2 * startW) / column;  // 宽
+  auto tileW = (width - 2 * startW) / column; // 宽
   auto tileH = percentWH;
 
   float startX = 0, startY = 0;
-  for (int i = 0; i < column + 1; i++) {  // 横向分隔,线条数=格数+1，画竖线
+  for (int i = 0; i < column + 1; i++) { // 横向分隔,线条数=格数+1，画竖线
     startX = startW + i * tileW;
     startY = startH;
     canvas->drawLine(startX, startY, startX, height - startH,
-                     paint);  //(x,y[min])-->(x,y[max])
+                     paint); //(x,y[min])-->(x,y[max])
   }
-  for (int i = 0; i < row + 1; i++) {  // 纵向分隔,线条数=格数+1，画横线
+  for (int i = 0; i < row + 1; i++) { // 纵向分隔,线条数=格数+1，画横线
     startX = startW;
     startY = startH + i * tileH;
     canvas->drawLine(startX, startY, width - startW, startY,
-                     paint);  //(x[min],y)-->(x[max],y)
+                     paint); //(x[min],y)-->(x[max],y)
   }
 
   std::vector<std::string> subLabels;
@@ -542,9 +544,9 @@ int main() {
   // 加载图片资源
   SkBitmap canvasBitmap;
   SkImageInfo imageInfo = SkImageInfo::Make(
-      1080, 1920, kBGRA_8888_SkColorType, kPremul_SkAlphaType);  // 设置位图信息
+      1080, 1920, kBGRA_8888_SkColorType, kPremul_SkAlphaType); // 设置位图信息
   canvasBitmap.allocPixels(
-      imageInfo, imageInfo.minRowBytes());  // 为位图设备绑定信息和分配内存
+      imageInfo, imageInfo.minRowBytes()); // 为位图设备绑定信息和分配内存
 
   SkCanvas canvas(canvasBitmap);
   std::string fileName = drawSingleWaterMark(&canvas);
@@ -569,7 +571,7 @@ int main() {
   current_directory = current_path.parent_path().parent_path();
   std::cout << "当前目录是: " << current_directory << std::endl;
   SkFILEWStream save_file((current_directory + PATH_SEPARATOR + fileName)
-                              .c_str());  // 创建文件输出流
+                              .c_str()); // 创建文件输出流
   if (!save_file.isValid()) {
     return 1;
   }

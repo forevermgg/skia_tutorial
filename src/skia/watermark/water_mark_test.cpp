@@ -97,9 +97,9 @@ int main() {
   // 加载图片资源
   SkBitmap canvasBitmap;
   SkImageInfo imageInfo = SkImageInfo::Make(
-      640, 640, kBGRA_8888_SkColorType, kPremul_SkAlphaType);  // 设置位图信息
+      640, 640, kBGRA_8888_SkColorType, kPremul_SkAlphaType); // 设置位图信息
   canvasBitmap.allocPixels(
-      imageInfo, imageInfo.minRowBytes());  // 为位图设备绑定信息和分配内存
+      imageInfo, imageInfo.minRowBytes()); // 为位图设备绑定信息和分配内存
   std::string file = "resources/watermark_test.png";
   if (std::filesystem::exists(file)) {
     std::cerr << "File found: " << file << std::endl;
@@ -126,7 +126,7 @@ int main() {
   std::cout << "当前目录是: " << current_directory << std::endl;
   SkFILEWStream save_file(
       (current_directory + PATH_SEPARATOR + "watermark_test_result.png")
-          .c_str());  // 创建文件输出流
+          .c_str()); // 创建文件输出流
   if (!save_file.isValid()) {
     return 1;
   }

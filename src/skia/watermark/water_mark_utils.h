@@ -15,8 +15,8 @@
 class WaterMarkUtils {
 private:
   template <typename T>
-  static bool SplitAndParse(const std::string& str, char delim,
-                     std::vector<T>* values) {
+  static bool SplitAndParse(const std::string &str, char delim,
+                            std::vector<T> *values) {
     std::istringstream input(str);
     for (std::string line; std::getline(input, line, delim);) {
       std::istringstream to_parse(line);
@@ -29,10 +29,11 @@ private:
     }
     return true;
   }
-  static double MeasureTextWidth(std::string& temp_str);
+  static double MeasureTextWidth(std::string &temp_str);
+
 public:
-    static std::vector<std::string> ParseWaterMarkContent(std::string& content);
-    static std::vector<std::string> load_system_fonts();
+  static std::vector<std::string> ParseWaterMarkContent(std::string &content);
+  static std::vector<std::string> load_system_fonts();
 };
 
-#endif  // SKIA_TUTORIAL_WATER_MARK_UTILS_H
+#endif // SKIA_TUTORIAL_WATER_MARK_UTILS_H

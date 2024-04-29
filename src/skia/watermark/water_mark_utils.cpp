@@ -19,8 +19,8 @@ double WaterMarkUtils::MeasureTextWidth(std::string &temp_str) {
   return textWidth;
 }
 
-std::vector<std::string> WaterMarkUtils::ParseWaterMarkContent(
-    std::string &content) {
+std::vector<std::string>
+WaterMarkUtils::ParseWaterMarkContent(std::string &content) {
   std::vector<std::string> results;
   std::list<std::string> handle_content_list;
   std::string origin_content =
@@ -79,16 +79,16 @@ std::vector<std::string> WaterMarkUtils::ParseWaterMarkContent(
 }
 
 std::vector<std::string> WaterMarkUtils::load_system_fonts() {
-#define SK_FONT_FILE_PREFIX      "resources"
-    std::vector<std::string> fonts;
-    SkOSFile::Iter  iter(SK_FONT_FILE_PREFIX, ".ttf");
-    SkString        name;
-    int             count = 0;
-    while (iter.next(&name, false)) {
-        std::cout << name.c_str() << std::endl;
-        fonts.push_back(name.c_str());
-    }
-    return fonts;
+#define SK_FONT_FILE_PREFIX "resources"
+  std::vector<std::string> fonts;
+  SkOSFile::Iter iter(SK_FONT_FILE_PREFIX, ".ttf");
+  SkString name;
+  int count = 0;
+  while (iter.next(&name, false)) {
+    std::cout << name.c_str() << std::endl;
+    fonts.push_back(name.c_str());
+  }
+  return fonts;
 }
 
 /*int main() {

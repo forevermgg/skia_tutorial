@@ -24,8 +24,7 @@
 
 class File {
 public:
-    static std::string get_current_directory();
+  static std::string get_current_directory();
 };
 
-
-#endif //SKIA_TUTORIAL_FILE_H
+#endif // SKIA_TUTORIAL_FILE_H
