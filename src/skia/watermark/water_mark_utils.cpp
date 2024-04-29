@@ -83,10 +83,9 @@ std::vector<std::string> WaterMarkUtils::load_system_fonts() {
   std::vector<std::string> fonts;
   SkOSFile::Iter iter(SK_FONT_FILE_PREFIX, ".ttf");
   SkString name;
-  int count = 0;
   while (iter.next(&name, false)) {
     std::cout << name.c_str() << std::endl;
-    fonts.push_back(name.c_str());
+    fonts.emplace_back(name.c_str());
   }
   return fonts;
 }
