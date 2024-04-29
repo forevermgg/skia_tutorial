@@ -1,5 +1,6 @@
 #include "skia/file.h"
 #include <filesystem>
+#include <iconv.h>
 #include <include/core/SkBitmap.h>
 #include <include/core/SkCanvas.h>
 #include <include/core/SkColorFilter.h>
@@ -18,6 +19,7 @@
 #include <modules/skparagraph/include/TextStyle.h>
 #include <modules/skparagraph/include/TypefaceFontProvider.h>
 #include <src/core/SkOSFile.h>
+#include <src/core/SkStringUtils.h>
 
 std::string draw(SkCanvas *canvas) {
   // Clear background
@@ -51,9 +53,28 @@ std::string draw(SkCanvas *canvas) {
     test_support_font_message.append(familyName.c_str());
     canvas->drawString(test_support_font_message.c_str(), SkIntToScalar(16),
                        SkIntToScalar(16) * SkIntToScalar(j) + 16, font, paint);
-    std::cout << "familyName: " << familyName.c_str() << std::endl;
-  }
 
+    const uint16_t test1[] = {0xD835, 0xDCD0, 0xD835, 0xDCD1, 0xD835, 0xDCD2,
+                              0xD835, 0xDCD3, 0xD835, 0xDCD4, 0x0020, 0xD835,
+                              0xDCD5, 0xD835, 0xDCD6, 0xD835, 0xDCD7, 0xD835,
+                              0xDCD8, 0xD835, 0xDCD9};
+    if (SkStringFromUTF16(test1, std::size(test1)).equals("𝓐𝓑𝓒𝓓𝓔 𝓕𝓖𝓗𝓘𝓙")) {
+      canvas->drawString(
+          SkStringFromUTF16(test1, std::size(test1)), SkIntToScalar(360),
+          SkIntToScalar(16) * SkIntToScalar(j) + 16, font, paint);
+    }
+
+    const uint16_t test2[] = {
+        0x0041, 0x0042, 0x0043, 0x0044, 0x0045, 0x0020,
+        0x0046, 0x0047, 0x0048, 0x0049, 0x004A,
+    };
+
+    if (SkStringFromUTF16(test2, std::size(test2)).equals("ABCDE FGHIJ")) {
+      canvas->drawString(
+          SkStringFromUTF16(test2, std::size(test2)), SkIntToScalar(720),
+          SkIntToScalar(16) * SkIntToScalar(j) + 16, font, paint);
+    }
+  }
   return "hello_check_font.png";
 }
 
