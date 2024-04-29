@@ -69,8 +69,9 @@ int main() {
   }
 
   SkBitmap canvasBitmap;
-  SkImageInfo imageInfo = SkImageInfo::Make(
-      1080, 1920 * 3, kBGRA_8888_SkColorType, kPremul_SkAlphaType); // 设置位图信息
+  SkImageInfo imageInfo =
+      SkImageInfo::Make(1080, 1920 * 3, kBGRA_8888_SkColorType,
+                        kPremul_SkAlphaType); // 设置位图信息
   canvasBitmap.allocPixels(
       imageInfo, imageInfo.minRowBytes()); // 为位图设备绑定信息和分配内存
 
