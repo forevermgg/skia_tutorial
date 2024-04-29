@@ -64,10 +64,10 @@ endif()
 # ------- End Set Vars --- #
 
 
-#[[include_directories(${SKIA_SDK}/include
+include_directories(${SKIA_SDK}/include
         ${SKIA_SDK}/modules
         ${SKIA_SDK}/src
-        ${SKIA_SDK}/third_party)]]
+        ${SKIA_SDK}/third_party)
 INCLUDE_DIRECTORIES(${SKIA_SDK})
 INCLUDE_DIRECTORIES(src)
 set(SK_GL=1)
@@ -93,12 +93,15 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 # add_executable(skia_tutorial src/skia/drawable/circle_rect.cpp src/skia/file.cpp)
 # add_executable(skia_tutorial src/skia/drawable/circle_rect_shadow.cpp src/skia/file.cpp)
 
+# ------- skparagraph ---------- #
+add_executable(skia_tutorial src/skia/skparagraph/hello_check_font.cpp src/skia/file.cpp)
+
 # ------- test ---------- #
 # add_executable(skia_tutorial src/skia/test/make_background.cpp src/skia/file.cpp)
 
 # ------- watermark ---------- #
 # add_executable(skia_tutorial src/skia/watermark/water_mark_test.cpp src/skia/file.cpp)
-add_executable(skia_tutorial src/skia/watermark/water_mark.cpp src/skia/file.cpp src/skia/watermark/water_mark_utils.cpp)
+# add_executable(skia_tutorial src/skia/watermark/water_mark.cpp src/skia/file.cpp src/skia/watermark/water_mark_utils.cpp)
 
 # add_executable(skia_tutorial src/skia/watermark/water_mark_utils.cpp)
 
