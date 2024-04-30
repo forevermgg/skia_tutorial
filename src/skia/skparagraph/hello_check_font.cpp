@@ -22,30 +22,31 @@
 #include <src/core/SkStringUtils.h>
 
 std::string drawGlyph(SkCanvas *canvas) {
-    // Clear background
-    canvas->clear(SK_ColorWHITE);
-    SkFont font;
-    font.setSubpixel(true);
-    font.setSize(16);
-    SkPaint paint;
-    paint.setColor(SK_ColorBLACK);
-    paint.setAntiAlias(true);
+  // Clear background
+  canvas->clear(SK_ColorWHITE);
+  SkFont font;
+  font.setSubpixel(true);
+  font.setSize(16);
+  SkPaint paint;
+  paint.setColor(SK_ColorBLACK);
+  paint.setAntiAlias(true);
 
-    sk_sp<SkFontMgr> pMgr = (SkFontMgr::RefDefault());
-    int FamilyCount = pMgr->countFamilies();
-    for (int j = 0; j < FamilyCount; j++) {
-        SkString familyName;
-        pMgr->getFamilyName(j, &familyName);
-        sk_sp<SkTypeface> typeface =
-                SkTypeface::MakeFromName(familyName.c_str(), SkFontStyle::Normal());
-        if (typeface == nullptr) {
-            continue;
-        }
-        font.setTypeface(typeface);
-        uint16_t glyphID = 65000;
-        canvas->drawSimpleText(&glyphID, 2,SkTextEncoding::kGlyphID, 100, 16 + j * 16, font, paint);
+  sk_sp<SkFontMgr> pMgr = (SkFontMgr::RefDefault());
+  int FamilyCount = pMgr->countFamilies();
+  for (int j = 0; j < FamilyCount; j++) {
+    SkString familyName;
+    pMgr->getFamilyName(j, &familyName);
+    sk_sp<SkTypeface> typeface =
+        SkTypeface::MakeFromName(familyName.c_str(), SkFontStyle::Normal());
+    if (typeface == nullptr) {
+      continue;
     }
-    return "hello_check_font_glyph.png";
+    font.setTypeface(typeface);
+    uint16_t glyphID = 65000;
+    canvas->drawSimpleText(&glyphID, 2, SkTextEncoding::kGlyphID, 100,
+                           16 + j * 16, font, paint);
+  }
+  return "hello_check_font_glyph.png";
 }
 
 std::string draw(SkCanvas *canvas) {
@@ -81,9 +82,8 @@ std::string draw(SkCanvas *canvas) {
     canvas->drawString(test_support_font_message.c_str(), SkIntToScalar(16),
                        SkIntToScalar(16) * SkIntToScalar(j) + 16, font, paint);
 
-    sk_sp<SkTextBlob> blob = SkTextBlob::MakeFromText(
-            str, std::size(str),
-        font, SkTextEncoding::kUTF8);
+    sk_sp<SkTextBlob> blob = SkTextBlob::MakeFromText(str, std::size(str), font,
+                                                      SkTextEncoding::kUTF8);
     canvas->drawTextBlob(blob, SkIntToScalar(260),
                          SkIntToScalar(16) * SkIntToScalar(j) + 16, paint);
 
