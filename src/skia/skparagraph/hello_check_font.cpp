@@ -21,34 +21,6 @@
 #include <src/core/SkOSFile.h>
 #include <src/core/SkStringUtils.h>
 
-std::string drawGlyph(SkCanvas *canvas) {
-  // Clear background
-  canvas->clear(SK_ColorWHITE);
-  SkFont font;
-  font.setSubpixel(true);
-  font.setSize(16);
-  SkPaint paint;
-  paint.setColor(SK_ColorBLACK);
-  paint.setAntiAlias(true);
-
-  sk_sp<SkFontMgr> pMgr = (SkFontMgr::RefDefault());
-  int FamilyCount = pMgr->countFamilies();
-  for (int j = 0; j < FamilyCount; j++) {
-    SkString familyName;
-    pMgr->getFamilyName(j, &familyName);
-    sk_sp<SkTypeface> typeface =
-        SkTypeface::MakeFromName(familyName.c_str(), SkFontStyle::Normal());
-    if (typeface == nullptr) {
-      continue;
-    }
-    font.setTypeface(typeface);
-    uint16_t glyphID = 65000;
-    canvas->drawSimpleText(&glyphID, 2, SkTextEncoding::kGlyphID, 100,
-                           16 + j * 16, font, paint);
-  }
-  return "hello_check_font_glyph.png";
-}
-
 std::string draw(SkCanvas *canvas) {
   // Clear background
   canvas->clear(SK_ColorWHITE);
@@ -76,7 +48,7 @@ std::string draw(SkCanvas *canvas) {
       continue;
     }
     font.setTypeface(typeface);
-    const char str[] = "\xe4\xbd\xa0\xe5\xa5\xbd"; // 你好
+    const char str[] = "\xe4\xbd\xa0\xe5\xa5\xbd 中国"; // 你好
     std::string test_support_font_message = std::string(str);
     test_support_font_message.append(familyName.c_str());
     canvas->drawString(test_support_font_message.c_str(), SkIntToScalar(16),
@@ -130,7 +102,7 @@ int main() {
       imageInfo, imageInfo.minRowBytes()); // 为位图设备绑定信息和分配内存
 
   SkCanvas canvas(canvasBitmap);
-  std::string fileName = drawGlyph(&canvas);
+  std::string fileName = draw(&canvas);
 
   // 将绘制结果保存到图片文件中
   std::string current_directory = File::get_current_directory();
