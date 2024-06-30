@@ -20,6 +20,7 @@
 #include <modules/skparagraph/include/TypefaceFontProvider.h>
 #include <src/core/SkOSFile.h>
 #include <src/core/SkStringUtils.h>
+#include <json/json.h>
 
 std::string drawGlyph(SkCanvas *canvas) {
   // Clear background
@@ -112,6 +113,7 @@ std::string draw(SkCanvas *canvas) {
 }
 
 int main() {
+
   auto fontProvider = sk_make_sp<skia::textlayout::TypefaceFontProvider>();
   SkOSFile::Iter iter("resources");
   SkString path;
