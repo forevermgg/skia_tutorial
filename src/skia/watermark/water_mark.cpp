@@ -540,6 +540,20 @@ std::string drawMultiTwolinesWaterMark(SkCanvas *canvas) {
   return "multi_two_line_water_mark.png";
 }
 
+SkBitmap ScaleBitmap(const SkBitmap& src, float sx, float sy) {
+  int width = (int)round(src.width() *sx);
+  int height = (int)round(src.height() * sy);
+  SkImageInfo image_info = SkImageInfo::Make(width, height, kRGBA_8888_SkColorType, SkAlphaType::kOpaque_SkAlphaType);
+  SkBitmap dst;
+  dst.setInfo(image_info, image_info.minRowBytes());
+  dst.allocPixels(image_info, image_info.minRowBytes()); // 为位图设备绑定信息和分配内存
+  // canvas will draw into dst, capturing the scaled version of src
+  SkCanvas canvas(dst);
+  canvas.scale(sx, sy);
+  canvas.drawImage(src.asImage(), 0, 0);
+  return dst;
+}
+
 int main() {
   // 加载图片资源
   SkBitmap canvasBitmap;
@@ -550,7 +564,7 @@ int main() {
 
   SkCanvas canvas(canvasBitmap);
   std::string fileName = drawSingleWaterMark(&canvas);
-
+  SkBitmap scaleBitmap = ScaleBitmap(canvasBitmap, 0.5, 0.5);
   std::vector<std::string> results;
   std::string origin_content = "hello\u00a0world";
   std::cout << "print origin_content text: " << origin_content << std::endl;
@@ -575,5 +589,5 @@ int main() {
   if (!save_file.isValid()) {
     return 1;
   }
-  SkPngEncoder::Encode(&save_file, canvasBitmap.pixmap(), {});
+  SkPngEncoder::Encode(&save_file, scaleBitmap.pixmap(), {});
 }
