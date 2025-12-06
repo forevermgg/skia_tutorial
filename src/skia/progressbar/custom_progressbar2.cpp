@@ -17,7 +17,9 @@
 #include <iostream>
 #include <string>
 
-// 💡 优化：移除 kPadding，实现进度条紧贴画布边缘
+// 定义常量，用于在画布边缘留出边距 (可调节)
+constexpr float kPadding = 20.0f;
+
 // --- 1. 形状修改：生成左细右粗的横向路径 (保持不变) ---
 // 圈复杂度 (CC) = 1
 SkPath make_tapered_progressbar_path(const SkRect &rect, float h_left_ratio,
@@ -27,27 +29,23 @@ SkPath make_tapered_progressbar_path(const SkRect &rect, float h_left_ratio,
   const float y = rect.fTop;
   const float w = rect.width();
   const float h_base = rect.height(); // 基准高度 (用于垂直定位)
-  std::cout << "w = " << w << " h_base = " << h_base << " x = " << x
+
+  // 调试输出 (移除以保持代码简洁，但保留在您提供的代码中)
+  /* std::cout << "w = " << w << " h_base = " << h_base << " x = " << x
             << " y = " << y << std::endl;
+  */
+
   // 计算实际的左右两端高度 (可调参数)
   const float h_left = h_base * h_left_ratio;
   const float h_right = h_base * h_right_ratio;
-  std::cout << "h_left = " << h_left << " h_right = " << h_right
-            << " h_left_ratio = " << h_left_ratio
-            << " h_right_ratio = " << h_right_ratio << std::endl;
+
   // 半径：取对应高度的一半
   const float radius_left = h_left / 2.0f;
   const float radius_right = h_right / 2.0f;
-  std::cout << "h_left = " << h_left << " h_right = " << h_right
-            << " radius_left = " << radius_left
-            << " radius_right = " << radius_right << std::endl;
 
   // Y 偏移：将形状垂直居中于 rect 的高度 h_base (主要用于定位)
   const float y_offset_left = (h_base - h_left) / 2.0f;
   const float y_offset_right = (h_base - h_right) / 2.0f;
-  std::cout << "h_left = " << h_left << " h_right = " << h_right
-            << " h_base = " << h_base << " y_offset_left = " << y_offset_left
-            << " y_offset_right = " << y_offset_right << std::endl;
 
   // 左端边界 (Top/Bottom)
   const float left_top_y = y + y_offset_left;
@@ -80,7 +78,7 @@ SkPath make_tapered_progressbar_path(const SkRect &rect, float h_left_ratio,
   return path;
 }
 
-// --- 2. 进度条绘制函数 (保持不变) ---
+// --- 2. 进度条绘制函数 (启用边框和文本绘制) ---
 // 圈复杂度 (CC) = 3
 void draw_horizontal_progressbar(SkCanvas *canvas, const SkRect &rect,
                                  float progress, float h_left_ratio,
@@ -102,7 +100,7 @@ void draw_horizontal_progressbar(SkCanvas *canvas, const SkRect &rect,
   canvas->drawPath(trackPath, trackPaint);
 
   // --- B. 准备裁剪区域 (Clipping) ---
-  // canvas->save();
+  canvas->save(); // 保存 canvas 状态以便后续恢复
   // 裁剪区域为梯形形状
   canvas->clipPath(trackPath, true);
 
@@ -120,70 +118,71 @@ void draw_horizontal_progressbar(SkCanvas *canvas, const SkRect &rect,
       SkRect::MakeXYWH(rect.fLeft, rect.fTop, fillWidth, rect.height());
   canvas->drawRect(fillRect, fillPaint);
 
-  // canvas->restore();
+  canvas->restore(); // 恢复 canvas 状态，移除裁剪区域
 
   // --- D. 绘制边框 ---
-  /* SkPaint borderPaint;
-   borderPaint.setColor(kDarkBlue);
-   borderPaint.setStyle(SkPaint::kStroke_Style);
-   borderPaint.setStrokeWidth(2.0f);
-   borderPaint.setAntiAlias(true); // 💡 优化：抗锯齿
-   canvas->drawPath(trackPath, borderPaint);*/
+  SkPaint borderPaint;
+  borderPaint.setColor(kDarkBlue);
+  borderPaint.setStyle(SkPaint::kStroke_Style);
+  borderPaint.setStrokeWidth(2.0f);
+  borderPaint.setAntiAlias(true); // 💡 优化：抗锯齿
+  canvas->drawPath(trackPath, borderPaint);
 
-  // --- E. 绘制文本百分比 (保持不变) ---
-  /*
-    sk_sp<SkTypeface> typeface = SkTypeface::MakeDefault();
-    SkFont font(typeface, rect.height() * 0.5f);
-    font.setEdging(SkFont::Edging::kAntiAlias);
+  // --- E. 绘制文本百分比 (重新启用) ---
 
-    SkPaint textPaint;
-    std::string progressText = std::to_string(static_cast<int>(progress)) + "%";
+  sk_sp<SkTypeface> typeface = SkTypeface::MakeDefault();
+  SkFont font(typeface, rect.height() * 0.5f);
+  font.setEdging(SkFont::Edging::kAntiAlias);
 
-    float textWidth = font.measureText(
-            progressText.c_str(), progressText.length(), SkTextEncoding::kUTF8);
-    SkFontMetrics fontMetrics{};
-    font.getMetrics(&fontMetrics);
+  SkPaint textPaint;
+  std::string progressText = std::to_string(static_cast<int>(progress)) + "%";
 
-    // 居中计算
-    float x = rect.fLeft + (rect.width() - textWidth) / 2.0f;
-    float textCenterY = rect.fTop + rect.height() / 2.0f;
-    float y = textCenterY - (fontMetrics.fAscent + fontMetrics.fDescent) / 2.0f;
+  float textWidth = font.measureText(
+      progressText.c_str(), progressText.length(), SkTextEncoding::kUTF8);
+  SkFontMetrics fontMetrics{};
+  font.getMetrics(&fontMetrics);
 
-    // 文本颜色切换逻辑
-    float textCenterX = rect.fLeft + rect.width() / 2.0f;
+  // 居中计算
+  float x = rect.fLeft + (rect.width() - textWidth) / 2.0f;
+  float textCenterY = rect.fTop + rect.height() / 2.0f;
+  float y = textCenterY - (fontMetrics.fAscent + fontMetrics.fDescent) / 2.0f;
 
-    if (textCenterX <= rect.fLeft + fillWidth) { // CC +1
-      textPaint.setColor(SK_ColorWHITE);
-    } else {
-      textPaint.setColor(kDarkBlue);
-    }
+  // 文本颜色切换逻辑
+  float textCenterX = rect.fLeft + rect.width() / 2.0f;
 
-    canvas->drawSimpleText(progressText.c_str(), progressText.length(),
-                           SkTextEncoding::kUTF8, x, y, font, textPaint);*/
+  if (textCenterX <= rect.fLeft + fillWidth) { // CC +1
+    textPaint.setColor(SK_ColorWHITE);
+  } else {
+    textPaint.setColor(kDarkBlue);
+  }
+
+  canvas->drawSimpleText(progressText.c_str(), progressText.length(),
+                         SkTextEncoding::kUTF8, x, y, font, textPaint);
 }
 
-// --- 3. 主绘图函数 (进度条占满画布) ---
+// --- 3. 主绘图函数 (带 Padding 居中绘制) ---
 // 圈复杂度 (CC) = 2
 void draw_frame(SkCanvas *canvas) {
-  static float currentProgress = 10.0f;
+  static float currentProgress = 75.0f;
 
   canvas->drawColor(SK_ColorWHITE);
 
-  // 💡 优化：获取画布的精确尺寸
+  // 获取画布的精确尺寸
   SkIRect canvasBounds = canvas->getDeviceClipBounds();
 
-  // 💡 优化：进度条的绘制区域直接使用整个画布尺寸 (无边距)
-  auto x = (float)canvasBounds.fLeft;
-  auto y = (float)canvasBounds.fTop;
-  auto w = (float)canvasBounds.width();
-  auto h = (float)canvasBounds.height();
+  // 💡 优化：计算进度条的绘制区域，留出 kPadding 的边距
+  float x = (float)canvasBounds.fLeft + kPadding;
+  float y = (float)canvasBounds.fTop + kPadding;
+  float w = (float)canvasBounds.width() - 2 * kPadding;
+  float h = (float)canvasBounds.height() - 2 * kPadding;
 
-  // 确保高度不会太小
+  // 确保宽度和高度不会太小
+  w = std::max(w, 200.0f);
   h = std::max(h, 40.0f);
 
   SkRect bounds = SkRect::MakeXYWH(x, y, w, h);
 
-  // 绘制进度条：左细 (50%) 右粗 (100%)
+  // 绘制进度条：左侧 60% 高度，右侧 100% 高度
   draw_horizontal_progressbar(canvas, bounds, currentProgress, 0.6f, 1.0f);
 
   // 动画逻辑：每次重绘增加进度，达到 100% 后重置
@@ -212,8 +211,7 @@ SkBitmap ScaleBitmap(const SkBitmap &src, float sx, float sy) {
 // CC = 2
 int main() {
   SkBitmap canvasBitmap;
-  // 💡 优化：根据需要调整画布尺寸。使用 540x180
-  // 作为一个合适的宽高比，不再是填充空白。
+  // 设置画布尺寸为 600x80，现在 2 * kPadding (40px) 已经被考虑到。
   SkImageInfo imageInfo =
       SkImageInfo::Make(600, 80, kRGBA_8888_SkColorType, kPremul_SkAlphaType);
   canvasBitmap.allocPixels(imageInfo, imageInfo.minRowBytes());
@@ -224,8 +222,7 @@ int main() {
 
   SkBitmap scaleBitmap = ScaleBitmap(canvasBitmap, 1.0f, 1.0f);
 
-  std::string fileName =
-      "horizontal_tapered_progressbar_no_padding.png"; // 更改文件名
+  std::string fileName = "horizontal_tapered_progressbar_with_padding.png";
 
   // 修正目录查找逻辑 (保持不变)
   std::string current_directory = File::get_current_directory();
