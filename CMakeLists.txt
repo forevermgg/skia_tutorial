@@ -101,7 +101,12 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 
 # ------- watermark ---------- #
 # add_executable(skia_tutorial src/skia/watermark/water_mark_test.cpp src/skia/file.cpp)
-add_executable(skia_tutorial src/skia/watermark/water_mark.cpp src/skia/file.cpp src/skia/watermark/water_mark_utils.cpp)
+# add_executable(skia_tutorial src/skia/watermark/water_mark.cpp src/skia/file.cpp src/skia/watermark/water_mark_utils.cpp)
+
+# add_executable(skia_tutorial src/skia/file.cpp src/skia/progressbar/progressbar.cpp)
+
+add_executable(skia_tutorial src/skia/file.cpp
+        src/skia/progressbar/custom_progressbar2.cpp)
 
 # add_executable(skia_tutorial src/skia/watermark/water_mark_utils.cpp)
 

@@ -14,13 +14,13 @@
 #include <include/encode/SkPngEncoder.h>
 #include <iostream>
 #include <istream>
+#include <json/json.h>
 #include <modules/skparagraph/include/FontCollection.h>
 #include <modules/skparagraph/include/ParagraphBuilder.h>
 #include <modules/skparagraph/include/TextStyle.h>
 #include <modules/skparagraph/include/TypefaceFontProvider.h>
 #include <src/core/SkOSFile.h>
 #include <src/core/SkStringUtils.h>
-#include <json/json.h>
 
 std::string draw(SkCanvas *canvas) {
   // Clear background

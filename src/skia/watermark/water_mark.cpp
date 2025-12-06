@@ -540,13 +540,15 @@ std::string drawMultiTwolinesWaterMark(SkCanvas *canvas) {
   return "multi_two_line_water_mark.png";
 }
 
-SkBitmap ScaleBitmap(const SkBitmap& src, float sx, float sy) {
-  int width = (int)round(src.width() *sx);
+SkBitmap ScaleBitmap(const SkBitmap &src, float sx, float sy) {
+  int width = (int)round(src.width() * sx);
   int height = (int)round(src.height() * sy);
-  SkImageInfo image_info = SkImageInfo::Make(width, height, kRGBA_8888_SkColorType, SkAlphaType::kOpaque_SkAlphaType);
+  SkImageInfo image_info = SkImageInfo::Make(
+      width, height, kRGBA_8888_SkColorType, SkAlphaType::kOpaque_SkAlphaType);
   SkBitmap dst;
   dst.setInfo(image_info, image_info.minRowBytes());
-  dst.allocPixels(image_info, image_info.minRowBytes()); // 为位图设备绑定信息和分配内存
+  dst.allocPixels(image_info,
+                  image_info.minRowBytes()); // 为位图设备绑定信息和分配内存
   // canvas will draw into dst, capturing the scaled version of src
   SkCanvas canvas(dst);
   canvas.scale(sx, sy);
