@@ -98,8 +98,8 @@ LINK_DIRECTORIES(${SKIA_SDK_LIB})
 
 # ------- test ---------- #
 # add_executable(skia_tutorial src/skia/test/make_background.cpp src/skia/file.cpp)
-add_executable(skia_tutorial src/skia/test/path_test1.cpp src/skia/file.cpp)
-# add_executable(skia_tutorial src/skia/test/path_test2.cpp src/skia/file.cpp)
+# add_executable(skia_tutorial src/skia/test/path_test1.cpp src/skia/file.cpp)
+add_executable(skia_tutorial src/skia/test/path_test2.cpp src/skia/file.cpp)
 
 # ------- watermark ---------- #
 # add_executable(skia_tutorial src/skia/watermark/water_mark_test.cpp src/skia/file.cpp)

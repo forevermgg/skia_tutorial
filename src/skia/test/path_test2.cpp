@@ -107,7 +107,7 @@ void draw(SkCanvas* canvas) {
   // =========================================================
 
   // 1. 定义直线端点 (长度为 80，中心在 centerX, centerY)
-  const SkScalar startX = centerX ; // 63.0 - 40.0 = 23.0f
+  const SkScalar startX = centerX + MAX_INNER_RADIUS; // 63.0 - 40.0 = 23.0f
   const SkScalar endX   = centerX + LINE_LENGTH; // 63.0 + 40.0 = 103.0f
   const SkScalar lineY  = centerY;
 
@@ -168,7 +168,7 @@ int main() {
   SkBitmap scaleBitmap = ScaleBitmap(canvasBitmap, 1.0f, 1.0f);
 
   // 4. 保存到文件
-  std::string fileName = "path_test2.png";
+  std::string fileName = "path_test2.2.png";
   std::string current_directory = File::get_current_directory();
   std::filesystem::path current_path = std::filesystem::current_path();
   current_directory = current_path.parent_path().parent_path();
